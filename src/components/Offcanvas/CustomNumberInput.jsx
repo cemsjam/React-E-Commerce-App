@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { BiPlus, BiMinus } from "react-icons/bi";
 
-import { useCart } from "@/context/ShoppingCartContext";
+import { useCartStore } from "@/stores/cartStore";
+
 import VisualOnlySvg from "../VisualOnlySvg";
 
 function CustomNumberInput({ product }) {
   const [input, setInput] = useState({ value: 1, max: 100, min: 1, step: 1 });
-  const { dispatch } = useCart();
+  const { changeQuantity } = useCartStore();
   const handleQuantityChange = (product) => {
-    const newQuantity = input.value;
-    const changedProduct = { ...product, quantity: newQuantity };
-    dispatch({ type: "CHANGE_QUANTITY", payload: changedProduct });
+    if (product) {
+      const newQuantity = input.value;
+      const changedProduct = { ...product, quantity: newQuantity };
+      changeQuantity(changedProduct);
+    }
   };
   useEffect(() => {
     handleQuantityChange(product);

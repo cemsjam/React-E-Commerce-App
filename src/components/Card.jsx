@@ -1,18 +1,24 @@
 import React from "react";
-import { useCart } from "@/context/ShoppingCartContext";
 import { toast } from "react-hot-toast";
-import { useOffCanvas } from "@/context/OffcanvasContext";
 import { Link } from "react-router-dom";
+
+import { useCartStore } from "@/stores/cartStore";
+import { useOffcanvasStore } from "@/stores/offcanvasStore";
+
 import Button from "./Button";
 function Card({ product }) {
   const { id, title, description, stock, price, thumbnail } = product;
-  const { dispatch } = useCart();
-  const { toggleOffcanvas } = useOffCanvas();
-  const addToCart = (item) => {
-    toggleOffcanvas();
-    dispatch({ type: "ADD_TO_CART", payload: item });
-    toast.success(`Added ${product.title} To Cart`);
+  const { addToCart } = useCartStore();
+  const { toggleOffcanvas } = useOffcanvasStore();
+
+  const handleAddToCart = (product) => {
+    if (product) {
+      toggleOffcanvas();
+      toast.success(`${product.title} has been added to cart!`);
+      addToCart(product);
+    }
   };
+
   return (
     <div className="h-full border border-gray-200 overflow-hidden shadow-md rounded-md grid grid-rows-[auto,minmax(0,1fr)]">
       <div className="img-wrapper h-32 p-2">
@@ -34,7 +40,7 @@ function Card({ product }) {
         <p className="text-xs text-gray-600">Stock: {stock}</p>
         <p className="text-indigo-700 font-bold">${price}</p>
 
-        <Button variant="primary" size="md" type="button" className="mt-auto" onClick={() => addToCart(product)}>
+        <Button variant="primary" size="md" type="button" className="mt-auto" onClick={() => handleAddToCart(product)}>
           Add To Cart
         </Button>
       </div>

@@ -1,16 +1,20 @@
 import React from "react";
 import { PiTrash } from "react-icons/pi";
-import { useCart } from "@/context/ShoppingCartContext";
 import { toast } from "react-hot-toast";
+
+import { useCartStore } from "@/stores/cartStore";
+
 import CustomNumberInput from "./CustomNumberInput";
 import VisualOnlySvg from "../VisualOnlySvg";
 
 function OffcanvasItem({ product }) {
   const { title, price, thumbnail, quantity } = product;
-  const { dispatch } = useCart();
-  const removeItem = (product) => {
-    dispatch({ type: "REMOVE_ITEM", payload: product });
-    toast.success(`Removed ${product.title} from Cart`);
+  const { removeItem } = useCartStore();
+  const handleRemoveItem = (product) => {
+    if (product) {
+      removeItem(product);
+      toast.success(`Removed ${product.title} from Cart`);
+    }
   };
   return (
     <>
@@ -32,7 +36,7 @@ function OffcanvasItem({ product }) {
               type="button"
               aria-label="Remove Product"
               className="mb-auto ml-auto hover:text-red-700 transition-all active:scale-95"
-              onClick={() => removeItem(product)}
+              onClick={() => handleRemoveItem(product)}
             >
               <VisualOnlySvg>
                 <PiTrash size={20} />

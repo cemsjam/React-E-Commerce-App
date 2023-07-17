@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { toast } from "react-hot-toast";
+
 const initialStates = {
   cartItems: [],
   total: 0,
 };
 
-export const useCartStore = create((set) => ({
+const store = (set) => ({
   ...initialStates,
   addToCart: (payload) =>
     set((state) => {
@@ -27,11 +27,43 @@ export const useCartStore = create((set) => ({
         };
       } else {
         const newItem = { ...payload, quantity: addedQuantity };
-        toast.success(`${newItem.title} added to cart!`);
+        if (newItem) {
+          return {
+            cartItems: [...state.cartItems, newItem],
+            total: state.total + newItem.price,
+          };
+        }
+      }
+    }),
+  removeItem: (payload) =>
+    set((state) => {
+      if (payload) {
+        const removedProductQuantity = payload.quantity;
+        const filteredItems = state.cartItems.filter((item) => item.id !== payload.id);
+        const currentTotal = state.total - payload.price * removedProductQuantity;
         return {
-          cartItems: [...state.cartItems, newItem],
-          total: state.total + newItem.price,
+          cartItems: filteredItems,
+          total: currentTotal,
         };
       }
     }),
-}));
+  changeQuantity: (payload) =>
+    set((state) => {
+      if (payload) {
+        const newQuantity = payload.quantity;
+        const newCartItems = state.cartItems.map((product) => {
+          if (product.id === payload.id) {
+            return { ...product, quantity: newQuantity };
+          } else {
+            return product;
+          }
+        });
+        const totalCost = newCartItems.reduce((acc, product) => (acc += product.price * product.quantity), 0);
+        return {
+          cartItems: newCartItems,
+          total: totalCost,
+        };
+      }
+    }),
+});
+export const useCartStore = create(store);

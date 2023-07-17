@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { useCart } from "@/context/ShoppingCartContext";
-import { useOffCanvas } from "@/context/OffcanvasContext";
+
+import { useOffcanvasStore } from "@/stores/offcanvasStore";
+import { useCartStore } from "@/stores/cartStore";
 
 import SearchBar from "@/layout/Header/SearchBar";
 import Offcanvas from "@/components/Offcanvas/Offcanvas";
@@ -12,8 +13,8 @@ import VisualOnlySvg from "@/components/VisualOnlySvg";
 import Button from "@/components/Button";
 
 function Navbar() {
-  const { state } = useCart();
-  const { isOpen, toggleOffcanvas, closeOffcanvas } = useOffCanvas();
+  const { isOpen, toggleOffcanvas, closeOffcanvas } = useOffcanvasStore();
+  const { cartItems } = useCartStore();
   const headerRef = useRef(null);
 
   //#region layout shift
@@ -59,9 +60,9 @@ function Navbar() {
             <VisualOnlySvg>
               <AiOutlineShoppingCart size={20} />
             </VisualOnlySvg>
-            {state.cartItems.length > 0 && (
+            {cartItems?.length > 0 && (
               <span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-indigo-700 text-white text-sm font-semibold transition-all">
-                {state.cartItems.length}
+                {cartItems?.length}
               </span>
             )}
           </Button>
