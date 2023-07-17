@@ -2,8 +2,12 @@ import React, { useMemo } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { calculateDiscountedPrice } from "@/utils/utils";
 import Button from "@/components/Button";
+import { useCartStore } from "@/stores/CartStore";
 function BuyBox({ product }) {
   const { title, description, price, rating, discountPercentage } = product;
+  const { addToCart, cartItems, total } = useCartStore();
+
+  //#region discount calculation
   const discountedPrice = useMemo(() => {
     if (!discountPercentage) return;
     return calculateDiscountedPrice(price, discountPercentage);
@@ -11,6 +15,8 @@ function BuyBox({ product }) {
   const ratingArr = useMemo(() => {
     return Array.from({ length: 5 }, (_) => <AiFillStar />);
   }, []);
+  //#endregion
+
   return (
     <div className="flex flex-col gap-4">
       <header className="flex justify-between items-center font-bold">
@@ -43,11 +49,18 @@ function BuyBox({ product }) {
       <h2 className="m-0">Description</h2>
       <p className="text-gray-600">{description}</p>
       <div className="cta">
-        <form>
-          <Button variant="primary" size="lg" alignment="center" fit="full" type="submit">
-            Add To Cart
-          </Button>
-        </form>
+        {/* <form> */}
+        <Button
+          variant="primary"
+          size="lg"
+          alignment="center"
+          fit="full"
+          type="submit"
+          onClick={() => addToCart(product)}
+        >
+          Add To Cart
+        </Button>
+        {/* </form> */}
       </div>
     </div>
   );
