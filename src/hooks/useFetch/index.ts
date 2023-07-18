@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import type { FetchResult } from "./types";
 
-function useFetch(baseUrl, query = "", usedInThisPlace) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+function useFetch<T>(baseUrl: string, query = ""): FetchResult<T> {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -13,13 +14,13 @@ function useFetch(baseUrl, query = "", usedInThisPlace) {
         setLoading(true);
         const res = await fetch(baseUrl + query, { signal });
         if (!res.ok) {
-          throw new Error(`Response is not received for ${usedInThisPlace ?? "a component"}`);
+          throw new Error(`Something went wrong please try again!`);
         }
-        const json = await res.json();
+        const json: T = await res.json();
         setData(json);
       } catch (error) {
         console.log(error);
-        setError(error.message);
+        setError(error as Error);
       } finally {
         setLoading(false);
       }

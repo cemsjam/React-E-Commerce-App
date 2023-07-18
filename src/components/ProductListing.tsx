@@ -1,7 +1,11 @@
-import Card from "./Card";
-import usePagination from "@/hooks/usePagination";
 import { motion } from "framer-motion";
 
+import { Product } from "@/types/Product";
+
+import usePagination from "@/hooks/usePagination";
+import Card from "./Card";
+
+//#region framer motion
 const container = {
   visible: {
     transition: {
@@ -17,10 +21,11 @@ const item = {
     opacity: 1,
   },
 };
+//#endregion
 
 function ProductListing() {
   const { data, loading, buttons, changePage, page } = usePagination(import.meta.env.VITE_APP_API_BASE_URL, "", 10); // baseurl + query + pagelimit
-  const { products } = data;
+  const products = data?.products ?? [];
   return (
     <>
       <h1 className="font-bold">Products</h1>
@@ -32,7 +37,7 @@ function ProductListing() {
       >
         {loading
           ? "...Loading"
-          : products?.map((product) => (
+          : products?.map((product: Product) => (
               <motion.li variants={item} key={product.id}>
                 <Card product={product} />
               </motion.li>

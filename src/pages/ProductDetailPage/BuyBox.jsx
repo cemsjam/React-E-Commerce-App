@@ -1,12 +1,24 @@
 import React, { useMemo } from "react";
 import { AiFillStar } from "react-icons/ai";
+
+import { useCartStore } from "@/stores/cartStore";
+import { useOffcanvasStore } from "@/stores/offcanvasStore";
+
 import { calculateDiscountedPrice } from "@/utils/utils";
 import Button from "@/components/Button";
-import { useCartStore } from "@/stores/CartStore";
+
 function BuyBox({ product }) {
   const { title, description, price, rating, discountPercentage } = product;
-  const { addToCart, cartItems, total } = useCartStore();
+  const { addToCart } = useCartStore();
+  const { toggleOffcanvas } = useOffcanvasStore();
 
+  const handleAddToCart = (product) => {
+    if (product) {
+      toggleOffcanvas();
+      toast.success(`${product.title} has been added to cart!`);
+      addToCart(product);
+    }
+  };
   //#region discount calculation
   const discountedPrice = useMemo(() => {
     if (!discountPercentage) return;
@@ -56,7 +68,7 @@ function BuyBox({ product }) {
           alignment="center"
           fit="full"
           type="submit"
-          onClick={() => addToCart(product)}
+          onClick={() => handleAddToCart(product)}
         >
           Add To Cart
         </Button>

@@ -4,8 +4,8 @@ import { PiArrowRightLight } from "react-icons/pi";
 import { GrFormClose } from "react-icons/gr";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { useCart } from "@/context/ShoppingCartContext";
-import { useOffCanvas } from "@/context/OffcanvasContext";
+import { useCartStore } from "@/stores/cartStore";
+import { useOffcanvasStore } from "@/stores/offcanvasStore";
 
 import OffcanvasItem from "./OffcanvasItem";
 import VisualOnlySvg from "../VisualOnlySvg";
@@ -13,8 +13,8 @@ import Button from "../Button";
 import { Link } from "react-router-dom";
 
 function Offcanvas({ isOpen, onClick }) {
-  const { state } = useCart();
-  const { closeOffcanvas } = useOffCanvas();
+  const { cartItems, total } = useCartStore();
+  const { closeOffcanvas } = useOffcanvasStore();
 
   return (
     <AnimatePresence>
@@ -43,8 +43,8 @@ function Offcanvas({ isOpen, onClick }) {
           </header>
           {/* body */}
           <div className="p-4 pt-0 overflow-auto flex flex-col divide-y divide-gray-200">
-            {state.cartItems.length >= 1 ? (
-              state.cartItems.map((product) => <OffcanvasItem key={product.id} product={product} />)
+            {cartItems.length >= 1 ? (
+              cartItems.map((product) => <OffcanvasItem key={product.id} product={product} />)
             ) : (
               <div className="w-full flex gap-2 items-center justify-center bg-sky-50 text-sky-800 font-semibold p-2 rounded-sm text-xs  m-auto">
                 <VisualOnlySvg>
@@ -58,7 +58,7 @@ function Offcanvas({ isOpen, onClick }) {
           <div className="flex flex-col">
             <div className="flex justify-between items-center p-4 mb-2 border-b border-b-gray-200 font-bold">
               <span>Subtotal: </span>
-              <span className="text-indigo-700">${state.total}</span>
+              <span className="text-indigo-700">${total}</span>
             </div>
             <Button
               as={Link}

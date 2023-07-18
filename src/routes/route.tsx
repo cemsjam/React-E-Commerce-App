@@ -2,8 +2,9 @@ import Home from "@/pages/Home";
 import Category from "@/pages/Category";
 import App from "@/App";
 import Product from "@/pages/ProductDetailPage/Product";
+import type { RouteObject } from "react-router-dom";
 
-export const routes = [
+export const routes: RouteObject[] = [
   {
     path: "/",
     element: <App />,
