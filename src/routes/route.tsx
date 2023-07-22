@@ -1,7 +1,7 @@
 import Home from "@/pages/Home";
 import Category from "@/pages/Category";
 import App from "@/App";
-import Product from "@/pages/ProductDetailPage/Product";
+import ProductPage from "@/pages/ProductDetailPage/ProductPage";
 import type { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
@@ -26,7 +26,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: "/products/:productId",
-        element: <Product />,
+        element: <ProductPage />,
         handle: {
           crumb: true,
         },

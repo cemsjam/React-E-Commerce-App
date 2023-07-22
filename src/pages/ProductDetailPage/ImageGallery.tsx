@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-function ImageGallery({ title, images }) {
+function ImageGallery({ title, images }: { title: string; images: string[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <div>

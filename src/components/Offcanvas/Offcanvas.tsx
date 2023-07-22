@@ -1,4 +1,3 @@
-import React from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { PiArrowRightLight } from "react-icons/pi";
 import { GrFormClose } from "react-icons/gr";
@@ -11,8 +10,9 @@ import OffcanvasItem from "./OffcanvasItem";
 import VisualOnlySvg from "../VisualOnlySvg";
 import Button from "../Button";
 import { Link } from "react-router-dom";
+import { Product } from "@/types/Product";
 
-function Offcanvas({ isOpen, onClick }) {
+function Offcanvas({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
   const { cartItems, total } = useCartStore();
   const { closeOffcanvas } = useOffcanvasStore();
 
@@ -44,7 +44,7 @@ function Offcanvas({ isOpen, onClick }) {
           {/* body */}
           <div className="p-4 pt-0 overflow-auto flex flex-col divide-y divide-gray-200">
             {cartItems.length >= 1 ? (
-              cartItems.map((product) => <OffcanvasItem key={product.id} product={product} />)
+              cartItems.map((product) => <OffcanvasItem key={product.id} product={product as Product} />)
             ) : (
               <div className="w-full flex gap-2 items-center justify-center bg-sky-50 text-sky-800 font-semibold p-2 rounded-sm text-xs  m-auto">
                 <VisualOnlySvg>
@@ -63,7 +63,7 @@ function Offcanvas({ isOpen, onClick }) {
             <Button
               as={Link}
               variant="primary"
-              size="lg"
+              buttonSize="lg"
               alignment="center"
               to="checkout-in-future"
               className="mx-4 mt-2"

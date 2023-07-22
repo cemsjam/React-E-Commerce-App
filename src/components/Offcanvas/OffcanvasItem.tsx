@@ -1,4 +1,4 @@
-import React from "react";
+import type { Product } from "@/types/Product";
 import { PiTrash } from "react-icons/pi";
 import { toast } from "react-hot-toast";
 
@@ -7,10 +7,10 @@ import { useCartStore } from "@/stores/cartStore";
 import CustomNumberInput from "./CustomNumberInput";
 import VisualOnlySvg from "../VisualOnlySvg";
 
-function OffcanvasItem({ product }) {
+function OffcanvasItem({ product }: { product: Product }) {
   const { title, price, thumbnail, quantity } = product;
   const { removeItem } = useCartStore();
-  const handleRemoveItem = (product) => {
+  const handleRemoveItem = (product: Product) => {
     if (product) {
       removeItem(product);
       toast.success(`Removed ${product.title} from Cart`);

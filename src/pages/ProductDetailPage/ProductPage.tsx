@@ -4,11 +4,20 @@ import { useParams } from "react-router-dom";
 import ImageGallery from "./ImageGallery";
 import BuyBox from "./BuyBox";
 import Breadcrumb from "@/layout/Breadcrumb";
+import { Product } from "@/types/Product";
+import Loader from "@/components/Loader";
 
-function Product() {
+function ProductPage() {
   const { productId } = useParams();
-  const { data } = useFetch(import.meta.env.VITE_APP_API_BASE_URL, `/${productId}`);
+  const { data, loading } = useFetch<Product>(import.meta.env.VITE_APP_API_BASE_URL, `/${productId}`);
+  if (loading) {
+    return <Loader />;
+  }
+  if (!data) {
+    return <div>This Product Is Not Available At The Moment.</div>;
+  }
   const { title, images } = data;
+
   return (
     <>
       <Breadcrumb />
@@ -24,4 +33,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default ProductPage;

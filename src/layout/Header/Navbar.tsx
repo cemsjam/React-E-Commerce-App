@@ -31,10 +31,11 @@ function Navbar() {
   //#endregion
 
   //#region click overlay to close cart
-  const overlayRef = useRef(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    const handler = (e) => {
-      if (e.target.contains(overlayRef.current)) {
+    const handler = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (overlayRef.current && target instanceof Node && target?.contains(overlayRef.current)) {
         closeOffcanvas();
       }
     };

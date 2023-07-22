@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { BiPlus, BiMinus } from "react-icons/bi";
+import { Product } from "@/types/Product";
 
 import { useCartStore } from "@/stores/cartStore";
 
 import VisualOnlySvg from "../VisualOnlySvg";
 
-function CustomNumberInput({ product }) {
+function CustomNumberInput({ product }: { product: Product }) {
   const [input, setInput] = useState({ value: 1, max: 100, min: 1, step: 1 });
   const { changeQuantity } = useCartStore();
-  const handleQuantityChange = (product) => {
+  const handleQuantityChange = (product: Product) => {
     if (product) {
       const newQuantity = input.value;
       const changedProduct = { ...product, quantity: newQuantity };

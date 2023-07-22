@@ -1,7 +1,9 @@
 import { useRef, useEffect } from "react";
 
-export default function useThrottled(fn, delay) {
-  const timeoutRef = useRef(null);
+type ThrottledFunction = (...args: any[]) => void;
+
+export default function useThrottled(fn: ThrottledFunction, delay: number) {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const shouldFireRef = useRef(false);
 
   useEffect(() => {
@@ -12,7 +14,7 @@ export default function useThrottled(fn, delay) {
     };
   }, []);
 
-  return (...args) => {
+  return (...args: any[]) => {
     if (!timeoutRef.current) {
       fn(...args);
       shouldFireRef.current = true;

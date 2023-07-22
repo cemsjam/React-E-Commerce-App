@@ -1,4 +1,4 @@
-import type { Product } from "@/types/Product";
+import type { Product, Products } from "@/types/Product";
 import { useParams } from "react-router-dom";
 
 import useFetch from "@/hooks/useFetch";
@@ -6,7 +6,7 @@ import Card from "@/components/Card";
 import Breadcrumb from "@/layout/Breadcrumb";
 
 type CategoryData = {
-  products: Product[];
+  products: Products;
   skip: number;
   total: number;
   limit: number;
