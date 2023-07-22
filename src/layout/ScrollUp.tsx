@@ -2,11 +2,14 @@ import classNames from "classnames";
 import { useState, useEffect } from "react";
 import { BsArrowUp } from "react-icons/bs";
 import useThrottle from "@/hooks/useThrottle";
+
 function ScrollUp() {
   const [scrolledEnough, setScrolledEnough] = useState(false);
+
   const handleClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   const handleScroll = useThrottle(() => {
     const scrollSpace = document.documentElement.offsetHeight - window.innerHeight;
     const currentScroll = document.documentElement.scrollTop;
@@ -16,10 +19,12 @@ function ScrollUp() {
       setScrolledEnough(false);
     }
   }, 1000);
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
+
   return (
     <button
       onClick={handleClick}

@@ -1,18 +1,20 @@
 import React, { useMemo } from "react";
 import { AiFillStar } from "react-icons/ai";
+import { toast } from "react-hot-toast";
 
 import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
+import { Product } from "@/types/Product";
 
 import { calculateDiscountedPrice } from "@/utils/utils";
 import Button from "@/components/Button";
 
-function BuyBox({ product }) {
+function BuyBox({ product }: { product: Product }) {
   const { title, description, price, rating, discountPercentage } = product;
   const { addToCart } = useCartStore();
   const { toggleOffcanvas } = useOffcanvasStore();
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product: Product) => {
     if (product) {
       toggleOffcanvas();
       toast.success(`${product.title} has been added to cart!`);
@@ -64,7 +66,7 @@ function BuyBox({ product }) {
         {/* <form> */}
         <Button
           variant="primary"
-          size="lg"
+          buttonSize="lg"
           alignment="center"
           fit="full"
           type="submit"

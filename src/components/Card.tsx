@@ -1,4 +1,5 @@
 import React from "react";
+import type { Product } from "@/types/Product";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
@@ -6,12 +7,13 @@ import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
 
 import Button from "./Button";
-function Card({ product }) {
+
+function Card({ product }: { product: Product }) {
   const { id, title, description, stock, price, thumbnail } = product;
   const { addToCart } = useCartStore();
   const { toggleOffcanvas } = useOffcanvasStore();
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product: Product) => {
     if (product) {
       toggleOffcanvas();
       toast.success(`${product.title} has been added to cart!`);
@@ -40,7 +42,13 @@ function Card({ product }) {
         <p className="text-xs text-gray-600">Stock: {stock}</p>
         <p className="text-indigo-700 font-bold">${price}</p>
 
-        <Button variant="primary" size="md" type="button" className="mt-auto" onClick={() => handleAddToCart(product)}>
+        <Button
+          variant="primary"
+          buttonSize="md"
+          type="button"
+          className="mt-auto"
+          onClick={() => handleAddToCart(product)}
+        >
           Add To Cart
         </Button>
       </div>

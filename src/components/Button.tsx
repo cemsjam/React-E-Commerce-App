@@ -1,7 +1,17 @@
-import { createElement, memo } from "react";
+import React, { createElement, memo } from "react";
 import classNames from "classnames";
 
-function Button({ as = "button", children, alignment, fit, size, variant, className, ...rest }) {
+type ButtonProps = {
+  as?: React.ReactNode | HTMLElement | React.ReactElement | string;
+  children?: React.ReactNode;
+  alignment?: string;
+  fit?: string;
+  buttonSize?: string;
+  variant?: string;
+  className?: string;
+} & React.HTMLProps<HTMLElement>;
+
+function Button({ as = "button", children, alignment, fit, buttonSize, variant, className, ...rest }: ButtonProps) {
   return createElement(
     as,
     {
@@ -12,9 +22,9 @@ function Button({ as = "button", children, alignment, fit, size, variant, classN
         "w-fit": fit === "fit",
         "w-auto": fit === "auto",
         "w-full": fit === "full",
-        "p-3": size === "lg",
-        "p-2": size === "md",
-        "p-1": size === "sm",
+        "p-3": buttonSize === "lg",
+        "p-2": buttonSize === "md",
+        "p-1": buttonSize === "sm",
         "font-semibold rounded-md bg-indigo-700 text-white hover:bg-indigo-800 active:bg-indigo-900":
           variant === "primary",
         "font-semibold rounded-md bg-gray-900 text-white hover:opacity-95 active:bg-gray-950": variant === "secondary",

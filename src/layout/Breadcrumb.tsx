@@ -1,9 +1,15 @@
 import React from "react";
 import { Link, useMatches } from "react-router-dom";
+interface RouteItem {
+  handle?: {
+    crumb?: boolean;
+  };
+  pathname: string;
+}
 
 function Breadcrumb() {
-  const matches = useMatches();
-  const crumbs = matches.filter((route) => route.handle?.crumb);
+  const matches = useMatches() as RouteItem[];
+  const crumbs = matches?.filter((route) => route?.handle?.crumb ?? []);
   console.log(crumbs);
   return (
     <ol>

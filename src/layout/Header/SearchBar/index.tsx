@@ -1,17 +1,22 @@
 import { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
 import { AiOutlineSearch } from "react-icons/ai";
-import Loader from "../../components/Loader";
+
+import { Product } from "@/types/Product";
+
+import Loader from "@/components/Loader";
 import useDebounce from "@/hooks/useDebounce";
 import VisualOnlySvg from "@/components/VisualOnlySvg";
+import { filterByTitle } from "@/utils/utils";
+
 function SearchBar() {
   const [query, setQuery] = useState("");
   const debouncedValue = useDebounce(query, 1000);
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<{ products: Product[] }>({ products: [] });
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
-  const searchContainerRef = useRef(null);
+  const searchContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,16 +28,20 @@ function SearchBar() {
           signal,
         });
         if (!res.ok) throw new Error("No response to this request in Search Component");
+
         const json = await res.json();
+
         if (json.products.length > 0) {
           if (notFound) setNotFound(true);
-          setSuggestions(json);
+          if (json) {
+            setSuggestions(json);
+          }
         } else {
           setNotFound(true);
-          setSuggestions([]);
+          setSuggestions({ products: [] });
         }
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -41,12 +50,14 @@ function SearchBar() {
       fetchData();
     } else {
       if (notFound) setNotFound(false);
-      if (suggestions) setSuggestions([]);
+      if (suggestions) setSuggestions({ products: [] });
     }
   }, [debouncedValue]);
+
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (searchContainerRef && !searchContainerRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (searchContainerRef.current && !searchContainerRef.current.contains(target)) {
         setFocused(false);
       }
     };
@@ -94,7 +105,7 @@ function SearchBar() {
         </button>
       </form>
       <div
-        className={classNames("absolute top-full left-0 w-full bg-gray-100 -mt-[1px] bg-gray-100", {
+        className={classNames("absolute top-full left-0 w-full bg-gray-100 -mt-[1px] ", {
           "z-40": focused,
         })}
       >
@@ -107,7 +118,7 @@ function SearchBar() {
             {loading && debouncedValue && <Loader />}
             {suggestions?.products?.length > 0 &&
               query.length > 0 &&
-              suggestions?.products?.map(({ id, title, price, thumbnail }) => (
+              suggestions?.products?.map(({ id, title, price, thumbnail }: Product) => (
                 <li key={id} className="flex gap-2 p-2  items-center hover:bg-gray-200 cursor-pointer">
                   <img className="w-8 h-8" src={thumbnail} alt={title} width={40} height={40} />
                   <span className="flex-1">{title}</span>
