@@ -7,13 +7,18 @@ import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
 
 import Button from "./Button";
+import { useModalStore } from "@/stores/modalStore";
 
 function Card({ product }: { product: Product }) {
   const { id, title, description, stock, price, thumbnail } = product;
-  const { addToCart } = useCartStore();
-  const { toggleOffcanvas } = useOffcanvasStore();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
+  const append = useModalStore((state) => state.append);
 
   const handleAddToCart = (product: Product) => {
+    append("register");
+    append("login");
+
     if (product) {
       toggleOffcanvas();
       toast.success(`${product.title} has been added to cart!`);

@@ -11,8 +11,8 @@ import Button from "@/components/Button";
 
 function BuyBox({ product }: { product: Product }) {
   const { title, description, price, rating, discountPercentage } = product;
-  const { addToCart } = useCartStore();
-  const { toggleOffcanvas } = useOffcanvasStore();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
 
   const handleAddToCart = (product: Product) => {
     if (product) {

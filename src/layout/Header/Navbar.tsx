@@ -13,9 +13,9 @@ import VisualOnlySvg from "@/components/VisualOnlySvg";
 import Button from "@/components/Button";
 
 function Navbar() {
-  const { isOpen, toggleOffcanvas, closeOffcanvas } = useOffcanvasStore();
-  const { cartItems } = useCartStore();
-  const headerRef = useRef(null);
+  const isOpen = useOffcanvasStore((state) => state.isOpen);
+  const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
+  const cartItems = useCartStore((state) => state.cartItems);
 
   //#region layout shift
   useEffect(() => {
@@ -30,24 +30,12 @@ function Navbar() {
   }, [isOpen]);
   //#endregion
 
-  //#region click overlay to close cart
+  const offcanvasRef = useRef<HTMLElement>();
   const overlayRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (overlayRef.current && target instanceof Node && target?.contains(overlayRef.current)) {
-        closeOffcanvas();
-      }
-    };
-    document.addEventListener("click", handler);
-    return () => removeEventListener("click", handler);
-  }, []);
-
-  //#endregion
-
+  // console.log("offcanvasRef declared here first");
   return (
     <>
-      <header ref={headerRef} className=" bg-white">
+      <header className=" bg-white">
         <nav className="container py-1 md-py-0 md:h-[50px] flex flex-wrap md:flex-nowrap justify-between items-center gap-2">
           <MobileMenu />
           <Link to="/">Logo</Link>
@@ -71,7 +59,7 @@ function Navbar() {
       </header>
       <MainNavigation />
       {isOpen && <div ref={overlayRef} className="overlay fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm"></div>}
-      <Offcanvas isOpen={isOpen} onClick={toggleOffcanvas} />
+      <Offcanvas ref={offcanvasRef} isOpen={isOpen} onClick={toggleOffcanvas} />
     </>
   );
 }

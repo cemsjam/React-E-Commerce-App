@@ -9,7 +9,7 @@ import VisualOnlySvg from "../VisualOnlySvg";
 
 function OffcanvasItem({ product }: { product: Product }) {
   const { title, price, thumbnail, quantity } = product;
-  const { removeItem } = useCartStore();
+  const removeItem = useCartStore((state) => state.removeItem);
   const handleRemoveItem = (product: Product) => {
     if (product) {
       removeItem(product);
