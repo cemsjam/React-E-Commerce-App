@@ -1,10 +1,10 @@
 import React from "react";
+import ModalHeader from "./ModalHeader";
 
-const RegisterModal = ({ close }: () => void) => {
+const RegisterModal = () => {
   return (
     <div>
-      <button onClick={close}>Close</button>
-      RegisterModal
+      <ModalHeader title="Register" />
     </div>
   );
 };

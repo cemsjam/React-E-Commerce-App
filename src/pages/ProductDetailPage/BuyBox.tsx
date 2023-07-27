@@ -49,7 +49,7 @@ function BuyBox({ product }: { product: Product }) {
               </span>
             ))}
           </span>
-          <a className="text-indigo-700 font-semibold" href="/">
+          <a className="text-primary font-semibold" href="/">
             See All Reviews
           </a>
         </p>

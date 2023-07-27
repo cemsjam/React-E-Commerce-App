@@ -22,8 +22,8 @@ function MainNavigation() {
                         className={classNames(
                           "flex items-center px-2 h-10 capitalize font-semibold relative border-b transition-all",
                           {
-                            "border-b-transparent hover:border-b-indigo-400": !isActive,
-                            "border-b-indigo-700 text-indigo-700": isActive,
+                            "border-b-transparent hover:border-b-primary-400": !isActive,
+                            "border-b-primary-700 text-primary": isActive,
                           }
                         )}
                       >

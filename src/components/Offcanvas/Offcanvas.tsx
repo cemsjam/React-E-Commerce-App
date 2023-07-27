@@ -66,7 +66,7 @@ const Offcanvas = React.forwardRef(({ isOpen, onClick }: { isOpen: boolean; onCl
           <div className="flex flex-col">
             <div className="flex justify-between items-center p-4 mb-2 border-b border-b-gray-200 font-bold">
               <span>Subtotal: </span>
-              <span className="text-indigo-700">${total}</span>
+              <span className="text-primary">${total}</span>
             </div>
             <Button
               as={Link}

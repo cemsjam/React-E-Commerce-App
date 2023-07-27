@@ -9,7 +9,7 @@ function Suggestions({ products }: { products: Product[] }) {
     >
       <img className="w-8 h-8" src={thumbnail} alt={title} width={40} height={40} />
       <span className="flex-1">{title}</span>
-      <span className="text-indigo-700 font-bold">${price}</span>
+      <span className="text-primary font-bold">${price}</span>
     </li>
   ));
 }

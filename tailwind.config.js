@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
 const baseFontSize = 0.875;
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -22,7 +23,11 @@ export default {
         lg: "1240px",
       },
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: { ...colors.slate, DEFAULT: colors.slate[700] },
+      },
+    },
   },
   plugins: [],
 };

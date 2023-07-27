@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface ModalStates {
   modals: any[];
-  append: (name: string, data?: any) => void;
+  append: (name: string, data?: {} | []) => void;
   destroy: () => void;
   destroyAll: () => void;
 }
@@ -16,16 +16,13 @@ export const useModalStore = create<ModalStates>((set) => ({
     set((state) => {
       if (state.modals.length < 1) {
         state.modals = [{ name, data }];
-        console.log("first added");
       } else {
-        console.log("2nd added");
-
-        console.log(name);
         const isModalExist = state.modals.find((modal) => modal.name === name);
         if (!isModalExist) {
           state.modals = [...state.modals, { name, data }];
         }
       }
+      console.log(state.modals);
       return state.modals;
     }),
   destroy: () =>
@@ -33,7 +30,6 @@ export const useModalStore = create<ModalStates>((set) => ({
       if (state.modals.length > 0) {
         const newModals = state.modals;
         newModals.pop();
-        console.log("popped", newModals);
         state.modals = newModals;
       }
       console.log("destroy called", state.modals);
@@ -42,8 +38,6 @@ export const useModalStore = create<ModalStates>((set) => ({
   destroyAll: () =>
     set((state) => {
       state.modals = [];
-      console.log("destroy all called");
-
       return state.modals;
     }),
 }));

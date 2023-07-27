@@ -25,19 +25,19 @@ function Button({ as = "button", children, alignment, fit, buttonSize, variant, 
         "p-3": buttonSize === "lg",
         "p-2": buttonSize === "md",
         "p-1": buttonSize === "sm",
-        "font-semibold rounded-md bg-indigo-700 text-white hover:bg-indigo-800 active:bg-indigo-900":
+        "font-semibold rounded-md bg-primary text-white hover:bg-primary-800 active:bg-primary-900":
           variant === "primary",
         "font-semibold rounded-md bg-gray-900 text-white hover:opacity-95 active:bg-gray-950": variant === "secondary",
-        "font-semibold rounded-md border border-indigo-700 text-indigo-700 hover:bg-indigo-700 text-white active:bg-indigo-800":
+        "font-semibold rounded-md border border-indigo-700 text-primary hover:bg-primary text-white active:bg-primary-800":
           variant === "outlined-primary",
         "font-semibold rounded-md border border-gray-900 text-gray-900 hover:bg-gray-900 text-white active:bg-gray-950":
           variant === "outlined-secondary",
-        "text-indigo-600": variant === "link",
-        "font-semibold rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-100 active:bg-indigo-200":
+        "text-primary-600": variant === "link",
+        "font-semibold rounded-md bg-primary-50 text-primary hover:bg-primary-100 active:bg-primary-200":
           variant === "primary-subtle",
         "font-semibold rounded-md bg-gray-50 text-gray-900  hover:bg-gray-100 active:bg-gray-200":
           variant === "secondary-subtle",
-        "hover:text-indigo-700 active:text-indigo-800 transition-colors inline-flex justify-center items-center rounded-full":
+        "hover:text-primary active:text-primary-800 transition-colors inline-flex justify-center items-center rounded-full":
           variant === "icon",
       }),
       ...rest,

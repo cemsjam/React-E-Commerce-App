@@ -31,7 +31,7 @@ function ScrollUp() {
       type="button"
       aria-label="Scroll To Top"
       className={classNames(
-        "fixed bottom-4 right-4 bg-indigo-700 text-white p-2 rounded-md pointer-events-auto scale-1 transition-all",
+        "fixed bottom-4 right-4 bg-primary text-white p-2 rounded-md pointer-events-auto scale-1 transition-all",
         {
           "scale-0 pointer-events-none ": !scrolledEnough,
         }

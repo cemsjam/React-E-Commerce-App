@@ -51,7 +51,7 @@ function ProductListing() {
             <li key={btn}>
               <button
                 className={`${
-                  page === btn ? "bg-indigo-700 text-white font-bold" : ""
+                  page === btn ? "bg-primary text-white font-bold" : ""
                 } border border-gray-200 rounded-sm text-[0.6em] p-1`}
                 type="button"
                 aria-label={`Current page ${btn}`}

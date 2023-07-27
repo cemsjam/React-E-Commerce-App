@@ -1,4 +1,5 @@
 import LoginModal from "./LoginModal";
+import QuickviewModal from "./QuickviewModal";
 import RegisterModal from "./RegisterModal";
 
 export const modalRoutes = [
@@ -9,5 +10,9 @@ export const modalRoutes = [
   {
     name: "register",
     element: RegisterModal,
+  },
+  {
+    name: "quickview",
+    element: QuickviewModal,
   },
 ];

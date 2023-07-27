@@ -30,7 +30,7 @@ function CustomNumberInput({ product }: { product: Product }) {
   return (
     <div className="flex">
       <button
-        className="bg-indigo-700 text-white w-5 h-5 inline-flex items-center justify-center rounded-sm"
+        className="bg-primary text-white w-5 h-5 inline-flex items-center justify-center rounded-sm"
         onClick={handleDecrement}
         type="button"
         aria-label={`Decrement Quantity of ${product.title}`}
@@ -51,7 +51,7 @@ function CustomNumberInput({ product }: { product: Product }) {
         min={input.min}
       />
       <button
-        className="bg-indigo-700 text-white w-5 h-5 inline-flex items-center justify-center rounded-sm"
+        className="bg-primary text-white w-5 h-5 inline-flex items-center justify-center rounded-sm"
         onClick={handleIncrement}
         type="button"
         aria-label={`Increment Quantity of ${product.title}`}

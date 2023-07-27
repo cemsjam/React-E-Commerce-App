@@ -7,6 +7,7 @@ function useClickOutside(ref: React.RefObject<HTMLElement>, fn: PassedFn, isActi
     const handler = (e: MouseEvent) => {
       const target = e.target as Node;
       const el = ref?.current;
+      console.log("handler");
       if (!el || el.contains(target)) {
         return;
       } else {

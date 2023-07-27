@@ -50,7 +50,7 @@ function Navbar() {
               <AiOutlineShoppingCart size={20} />
             </VisualOnlySvg>
             {cartItems?.length > 0 && (
-              <span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-indigo-700 text-white text-sm font-semibold transition-all">
+              <span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
                 {cartItems?.length}
               </span>
             )}

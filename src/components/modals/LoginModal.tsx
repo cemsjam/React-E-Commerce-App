@@ -1,7 +1,12 @@
 import React from "react";
+import ModalHeader from "./ModalHeader";
 
 const LoginModal = () => {
-  return <div>LoginModal</div>;
+  return (
+    <div>
+      <ModalHeader title="Login" />
+    </div>
+  );
 };
 
 export default LoginModal;
