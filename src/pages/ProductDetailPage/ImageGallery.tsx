@@ -5,7 +5,7 @@ function ImageGallery({ title, images }: { title: string; images: string[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <div>
-      <div className="h-[250px] md:h-[430px] border border-gray-200 p-4 flex rounded-md">
+      <div className="h-[250px] md:h-[430px] aspect-square w-full border border-gray-200 p-4 flex rounded-md">
         <img src={images && images[activeIndex]} alt={title} className="object-contain max-h-[95%] m-auto rounded-md" />
       </div>
       <ul className="flex flex-wrap justify-center gap-2 mt-4">

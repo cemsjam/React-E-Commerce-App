@@ -4,6 +4,7 @@ import { Product } from "@/types/Product";
 
 import usePagination from "@/hooks/usePagination";
 import Card from "./Card";
+import { InfiniteScroll } from "./InfiniteScroll";
 
 //#region framer motion
 const container = {
@@ -43,13 +44,14 @@ function ProductListing() {
               </motion.li>
             ))}
       </motion.ul>
+
       <nav role="pagination" aria-label="Page Navigation">
         <ul className="flex justify-center gap-1 py-2">
           {buttons.map((btn) => (
             <li key={btn}>
               <button
                 className={`${
-                  page === btn ? "bg-indigo-700 text-white font-bold" : ""
+                  page === btn ? "bg-primary text-white font-bold" : ""
                 } border border-gray-200 rounded-sm text-[0.6em] p-1`}
                 type="button"
                 aria-label={`Current page ${btn}`}

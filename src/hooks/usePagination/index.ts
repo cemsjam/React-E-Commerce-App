@@ -3,7 +3,6 @@ import useFetch from "../useFetch";
 import type { PaginationData, PaginationResult } from "./types";
 
 function usePagination(baseUrl: string, query: string | undefined, itemPerPageLimit = 5): PaginationResult {
-  console.log("use pagination rendered");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(itemPerPageLimit);
   const [numberOfPages, setNumberOfPages] = useState(0);
@@ -19,6 +18,7 @@ function usePagination(baseUrl: string, query: string | undefined, itemPerPageLi
   const changePage = (number: number) => {
     setPage(number);
   };
+
   return { data, loading, error, page, setPage, limit, buttons, changePage };
 }
 

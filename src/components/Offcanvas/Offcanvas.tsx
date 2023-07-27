@@ -1,3 +1,4 @@
+import React from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { PiArrowRightLight } from "react-icons/pi";
 import { GrFormClose } from "react-icons/gr";
@@ -11,11 +12,17 @@ import VisualOnlySvg from "../VisualOnlySvg";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 import { Product } from "@/types/Product";
+import useClickOutside from "@/hooks/useClickOutside";
 
-function Offcanvas({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
-  const { cartItems, total } = useCartStore();
-  const { closeOffcanvas } = useOffcanvasStore();
+const Offcanvas = React.forwardRef(({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }, ref: any) => {
+  const cartItems = useCartStore((state) => state.cartItems);
+  const total = useCartStore((state) => state.total);
+  const closeOffcanvas = useOffcanvasStore((state) => state.closeOffcanvas);
 
+  const handleClickOutside = (e: MouseEvent) => {
+    closeOffcanvas();
+  };
+  useClickOutside(ref, handleClickOutside, isOpen);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -29,6 +36,7 @@ function Offcanvas({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }
           animate={{ translateX: 0 }}
           exit={{ translateX: "100%", opacity: 0 }}
           id="cart-offcanvas"
+          ref={ref}
           className="fixed top-0 right-0 z-[110] bg-white shadow-2xl h-screen w-[80%] md:w-[350px] grid grid-rows-[auto,1fr,auto]
     } transition-transform"
         >
@@ -58,7 +66,7 @@ function Offcanvas({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }
           <div className="flex flex-col">
             <div className="flex justify-between items-center p-4 mb-2 border-b border-b-gray-200 font-bold">
               <span>Subtotal: </span>
-              <span className="text-indigo-700">${total}</span>
+              <span className="text-primary">${total}</span>
             </div>
             <Button
               as={Link}
@@ -84,6 +92,6 @@ function Offcanvas({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }
       )}
     </AnimatePresence>
   );
-}
+});
 
 export default Offcanvas;

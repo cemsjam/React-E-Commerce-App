@@ -1,17 +1,20 @@
 import React from "react";
-import type { Product } from "@/types/Product";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AiOutlineEye } from "react-icons/ai";
+import type { Product } from "@/types/Product";
 
 import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
 
 import Button from "./Button";
+import { useModalStore } from "@/stores/modalStore";
 
 function Card({ product }: { product: Product }) {
   const { id, title, description, stock, price, thumbnail } = product;
-  const { addToCart } = useCartStore();
-  const { toggleOffcanvas } = useOffcanvasStore();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
+  const append = useModalStore((state) => state.append);
 
   const handleAddToCart = (product: Product) => {
     if (product) {
@@ -21,10 +24,14 @@ function Card({ product }: { product: Product }) {
     }
   };
 
+  const handleQuickviewModal = (product: Product) => {
+    append("quickview", product);
+  };
+
   return (
-    <div className="h-full border border-gray-200 overflow-hidden shadow-md rounded-md grid grid-rows-[auto,minmax(0,1fr)]">
-      <div className="img-wrapper h-32 p-2">
-        <Link className="h-full" to={`/products/${id}`}>
+    <div className="h-full border border-gray-200 overflow-hidden shadow-md rounded-md grid grid-rows-[auto,minmax(0,1fr)] group">
+      <div className="img-wrapper h-32 p-2 relative">
+        <Link className="h-full " to={`/products/${id}`}>
           <img
             width={300}
             height={130}
@@ -33,6 +40,14 @@ function Card({ product }: { product: Product }) {
             alt={title}
           />
         </Link>
+        <button
+          type="button"
+          aria-label="Toggle quickview"
+          className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shadow-lg absolute top-2 right-2 hover:text-primary transition-all opacity-0 group-hover:opacity-100"
+          onClick={() => handleQuickviewModal(product)}
+        >
+          <AiOutlineEye size={16} />
+        </button>
       </div>
       <div className="body p-4 flex flex-col gap-3">
         <Link to={`/products/${id}`}>
@@ -40,7 +55,7 @@ function Card({ product }: { product: Product }) {
         </Link>
         <p className="line-clamp-3 text-gray-600">{description}</p>
         <p className="text-xs text-gray-600">Stock: {stock}</p>
-        <p className="text-indigo-700 font-bold">${price}</p>
+        <p className="text-primary font-bold">${price}</p>
 
         <Button
           variant="primary"

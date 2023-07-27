@@ -11,8 +11,8 @@ import Button from "@/components/Button";
 
 function BuyBox({ product }: { product: Product }) {
   const { title, description, price, rating, discountPercentage } = product;
-  const { addToCart } = useCartStore();
-  const { toggleOffcanvas } = useOffcanvasStore();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
 
   const handleAddToCart = (product: Product) => {
     if (product) {
@@ -49,7 +49,7 @@ function BuyBox({ product }: { product: Product }) {
               </span>
             ))}
           </span>
-          <a className="text-indigo-700 font-semibold" href="/">
+          <a className="text-primary font-semibold" href="/">
             See All Reviews
           </a>
         </p>

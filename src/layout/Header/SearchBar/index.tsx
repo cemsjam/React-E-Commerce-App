@@ -7,7 +7,7 @@ import { Product } from "@/types/Product";
 import Loader from "@/components/Loader";
 import useDebounce from "@/hooks/useDebounce";
 import VisualOnlySvg from "@/components/VisualOnlySvg";
-import { filterByTitle } from "@/utils/utils";
+import Suggestions from "./Suggestions";
 
 function SearchBar() {
   const [query, setQuery] = useState("");
@@ -18,6 +18,7 @@ function SearchBar() {
   const [focused, setFocused] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
 
+  //#region fetching search suggestions with a debounced value
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -53,7 +54,9 @@ function SearchBar() {
       if (suggestions) setSuggestions({ products: [] });
     }
   }, [debouncedValue]);
+  //#endregion
 
+  //#region click outside will be replaced with a hook
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -64,7 +67,7 @@ function SearchBar() {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
+  //#endregion
   return (
     <div
       className={classNames(
@@ -97,7 +100,7 @@ function SearchBar() {
         <button
           type="submit"
           aria-label="Search Submit Button"
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-indigo-700"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-primary"
         >
           <VisualOnlySvg>
             <AiOutlineSearch />
@@ -111,20 +114,12 @@ function SearchBar() {
       >
         {debouncedValue.length >= 3 && focused && (
           <ul
-            className={classNames("w-full", {
+            className={classNames("w-full flex flex-wrap", {
               "border border-indigo-700 border-t-transparent shadow-2xl": focused,
             })}
           >
             {loading && debouncedValue && <Loader />}
-            {suggestions?.products?.length > 0 &&
-              query.length > 0 &&
-              suggestions?.products?.map(({ id, title, price, thumbnail }: Product) => (
-                <li key={id} className="flex gap-2 p-2  items-center hover:bg-gray-200 cursor-pointer">
-                  <img className="w-8 h-8" src={thumbnail} alt={title} width={40} height={40} />
-                  <span className="flex-1">{title}</span>
-                  <span className="text-indigo-700">${price}</span>
-                </li>
-              ))}
+            {suggestions?.products?.length > 0 && query.length > 0 && <Suggestions products={suggestions?.products} />}
             {notFound && <span className="p-2 h-8  text-red-600">Product Not found</span>}
           </ul>
         )}

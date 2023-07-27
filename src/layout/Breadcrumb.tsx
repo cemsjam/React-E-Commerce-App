@@ -10,7 +10,7 @@ interface RouteItem {
 function Breadcrumb() {
   const matches = useMatches() as RouteItem[];
   const crumbs = matches?.filter((route) => route?.handle?.crumb ?? []);
-  console.log(crumbs);
+  // console.log(crumbs);
   return (
     <ol>
       {crumbs.map((item) => (
