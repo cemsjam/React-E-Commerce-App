@@ -4,7 +4,7 @@ import App from "@/App";
 
 import Home from "@/pages/Home";
 import Category from "@/pages/Category";
-import ProductPage from "@/pages/ProductDetailPage/ProductPage";
+import ProductPage from "@/pages/ProductPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
 import AccountPage from "@/pages/Account";

@@ -29,7 +29,9 @@ const Breadcrumb = ({ productName, isProductPage = false }: BreadcrumbTypes) => 
 					const isLastElement = index === pathnames.length - 1;
 					const capitalizedName = name[0].toUpperCase() + name.slice(1);
 					return isLastElement ? (
-						<li key={index}>{isProductPage ? productName : capitalizedName}</li>
+						<li className="font-medium" key={index}>
+							{isProductPage ? productName : capitalizedName}
+						</li>
 					) : (
 						!isNonNavigatable && (
 							<li className="flex items-center gap-2" key={index}>

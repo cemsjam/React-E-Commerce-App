@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import useFetch from "@/hooks/useFetch";
 import Card from "@/components/Card";
-import Breadcrumb from "@/layout/Breadcrumb";
+import Breadcrumb from "@/components/layout/Breadcrumb";
 import CardSkeleton from "@/components/CardSkeleton";
 
 type CategoryData = {
@@ -19,7 +19,7 @@ function Category() {
 		import.meta.env.VITE_APP_API_BASE_URL,
 		`/category/${categoryId}`
 	);
-	if (loading && !data) {
+	if (loading || !data) {
 		return (
 			<div>
 				<Breadcrumb />

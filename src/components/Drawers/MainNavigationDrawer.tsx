@@ -1,4 +1,4 @@
-import MainNavigation from "@/layout/Header/MainNavigation";
+import MainNavigation from "@/components/layout/Header/MainNavigation";
 
 const MainNavigationDrawer = ({ data }: any) => {
 	console.log(data, "props");

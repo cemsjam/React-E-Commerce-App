@@ -1,8 +1,8 @@
 import { Product } from "@/types/Product";
 import React from "react";
 import ModalHeader from "./ModalHeader";
-import ImageGallery from "@/pages/ProductDetailPage/ImageGallery";
-import BuyBox from "@/pages/ProductDetailPage/BuyBox";
+import ImageGallery from "@/components/ProductDetail/ImageGallery";
+import BuyBox from "@/components/ProductDetail/BuyBox";
 
 const QuickviewModal = ({ modalData: product }: { modalData: Product }) => {
 	if (!product) return null;

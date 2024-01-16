@@ -7,7 +7,7 @@ import { Product } from "@/types/Product";
 import Loader from "@/components/Loader";
 import useDebounce from "@/hooks/useDebounce";
 import VisualOnlySvg from "@/components/VisualOnlySvg";
-import Suggestions from "./Suggestions";
+import Suggestions from "@/components/layout/Header/SearchBar/Suggestions";
 
 function SearchBar() {
 	const [query, setQuery] = useState("");
@@ -82,14 +82,23 @@ function SearchBar() {
 			ref={searchContainerRef}
 		>
 			<form className="relative z-50">
+				<button
+					type="submit"
+					aria-label="Search Submit Button"
+					className="absolute left-2 top-1/2 -translate-y-1/2 text-primary"
+				>
+					<VisualOnlySvg>
+						<AiOutlineSearch />
+					</VisualOnlySvg>
+				</button>
 				<label className="sr-only" htmlFor="Search">
 					Search Any Product Here!
 				</label>
 				<input
 					className={classNames(
-						"w-full border border-gray-100 bg-gray-100 py-1.5 px-3 placeholder:text-sm placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none",
+						"w-full rounded-sm border border-primary  py-1.5 px-8 placeholder:text-sm  font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none",
 						{
-							"border-indigo-700": focused,
+							"border-primary-700": focused,
 						}
 					)}
 					name="search"
@@ -100,30 +109,25 @@ function SearchBar() {
 					onFocus={() => setFocused(true)}
 					placeholder="Search Any Product Here!"
 				/>
-				<button
-					type="submit"
-					aria-label="Search Submit Button"
-					className="absolute right-2 top-1/2 -translate-y-1/2 text-primary"
-				>
-					<VisualOnlySvg>
-						<AiOutlineSearch />
-					</VisualOnlySvg>
-				</button>
 			</form>
 			<div
-				className={classNames("absolute top-full left-0 w-full bg-gray-100 -mt-[1px] ", {
+				className={classNames("absolute top-full left-0 w-full bg-white -mt-[1px] ", {
 					"z-40": focused,
 				})}
 			>
 				{debouncedValue.length >= 3 && focused && (
 					<ul
-						className={classNames("w-full flex flex-wrap", {
-							"border border-indigo-700 border-t-transparent shadow-2xl": focused,
+						className={classNames("w-full flex flex-col", {
+							"border border-primary-700 border-t-transparent shadow-2xl rounded-b-sm overflow-hidden":
+								focused,
 						})}
 					>
 						{loading && <Loader />}
 						{debouncedValue.length > 0 && suggestions?.products?.length > 0 && (
-							<Suggestions products={suggestions?.products} />
+							<Suggestions
+								products={suggestions?.products}
+								onClick={() => setFocused(false)}
+							/>
 						)}
 						{notFound && !loading && (
 							<span className="p-2 h-8  text-red-600">Product Not found</span>

@@ -1,6 +1,8 @@
-import { Link, redirect } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth, useClerk } from "@clerk/clerk-react";
 import { User, ShoppingCart, Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
@@ -17,6 +19,7 @@ import {
 } from "@/components/dropdown-menu/DropdownMenu";
 
 const NavbarActions = () => {
+	const [open, setOpen] = useState(false);
 	const { isLoaded, isSignedIn } = useAuth();
 	const { signOut } = useClerk();
 	const cartItems = useCartStore((state) => state.cartItems);
@@ -27,18 +30,22 @@ const NavbarActions = () => {
 		<ul className="flex items-center">
 			{/* PROFILE */}
 			<li>
-				<DropdownMenu>
-					<DropdownMenuTrigger>
-						<Button
-							variant="icon"
-							as="div"
-							className="relative w-8 h-8"
-							aria-label="Profile Menu"
-						>
-							<VisualOnlySvg>
-								<User size={20} />
-							</VisualOnlySvg>
-						</Button>
+				<DropdownMenu open={open} onOpenChange={setOpen}>
+					<DropdownMenuTrigger asChild>
+						<div>
+							<Button
+								variant="icon"
+								as="button"
+								className={cn("relative w-8 h-8", {
+									"after:scale-100": open,
+								})}
+								aria-label="Profile Menu"
+							>
+								<VisualOnlySvg>
+									<User size={20} />
+								</VisualOnlySvg>
+							</Button>
+						</div>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
 						{!isUserSignedIn ? (
@@ -50,9 +57,10 @@ const NavbarActions = () => {
 										fit="full"
 										alignment="center"
 										buttonSize="md"
-										className="rounded-sm"
+										className="rounded-sm !p-0"
+										onClick={() => setOpen(false)}
 									>
-										<Link className="d-block w-full h-full text-center" to="/sign-in">
+										<Link className="d-block w-full h-full text-center p-2" to="/sign-in">
 											Sign In
 										</Link>
 									</Button>
@@ -65,9 +73,10 @@ const NavbarActions = () => {
 										buttonSize="md"
 										as="div"
 										variant="outlined-primary"
-										className="rounded-sm"
+										className="rounded-sm !p-0"
+										onClick={() => setOpen(false)}
 									>
-										<Link className="d-block w-full h-full text-center" to="/sign-up">
+										<Link className="d-block w-full h-full text-center p-2" to="/sign-up">
 											Sign Up
 										</Link>
 									</Button>
@@ -94,7 +103,11 @@ const NavbarActions = () => {
 			{/* WISHLIST */}
 			<li>
 				<Button variant="icon" className="relative w-8 h-8" as="div">
-					<Link to="/wishlist" aria-label="Visit Wishlist Page">
+					<Link
+						to="/wishlist"
+						className="w-full h-full flex items-center justify-center"
+						aria-label="Visit Wishlist Page"
+					>
 						<VisualOnlySvg>
 							<Heart size={20} />
 						</VisualOnlySvg>
