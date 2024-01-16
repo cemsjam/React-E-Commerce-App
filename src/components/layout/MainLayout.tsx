@@ -1,7 +1,8 @@
-import Navbar from "./Header/Navbar";
-import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
-import ScrollUp from "@/layout/ScrollUp";
+import { Toaster } from "react-hot-toast";
+
+import Navbar from "./Header/Navbar";
+import ScrollUp from "@/components/layout/ScrollUp";
 import Drawer from "@/components/Drawers/Drawer";
 import Footer from "./Footer";
 

@@ -1,5 +1,6 @@
 import { drawerActions } from "@/redux/drawerSlice/actions";
 import { RxHamburgerMenu } from "react-icons/rx";
+
 function MobileMenu() {
 	// const openDrawer = useDrawerStore((state) => state.openDrawer);
 	const handleClick = () => {
@@ -10,8 +11,7 @@ function MobileMenu() {
 	};
 	return (
 		<button type="button" className="md:hidden" onClick={handleClick}>
-			<RxHamburgerMenu size={20} />{" "}
-			<span className="sr-only">Open Menu</span>
+			<RxHamburgerMenu size={20} /> <span className="sr-only">Open Menu</span>
 		</button>
 	);
 }

@@ -4,9 +4,9 @@ import useFetch from "@/hooks/useFetch";
 
 import { Product } from "@/types/Product";
 
-import ImageGallery from "./ImageGallery";
-import BuyBox from "./BuyBox";
-import Breadcrumb from "@/layout/Breadcrumb";
+import ImageGallery from "../components/ProductDetail/ImageGallery";
+import BuyBox from "../components/ProductDetail/BuyBox";
+import Breadcrumb from "@/components/layout/Breadcrumb";
 import Loader from "@/components/Loader";
 
 function ProductPage() {

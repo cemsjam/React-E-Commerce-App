@@ -35,7 +35,7 @@ function ImageGallery({ title, images }: { title: string; images: string[] }) {
 	};
 	return (
 		<div>
-			<div className="w-full border border-gray-200 p-4 flex rounded-md">
+			<div className="w-full bg-white border border-gray-200 p-4 flex rounded-md">
 				{images && (
 					<Carousel setApi={setApi}>
 						<CarouselContent>
@@ -65,8 +65,8 @@ function ImageGallery({ title, images }: { title: string; images: string[] }) {
 						className={classNames(
 							"rounded-md overflow-hidden object-cover border-2 h-[80px] aspect-square",
 							{
-								"border-indigo-700": i === current,
-								"border-slate-200": i !== current,
+								"border-primary": i === current,
+								"border-slate-300": i !== current,
 							}
 						)}
 						key={img}

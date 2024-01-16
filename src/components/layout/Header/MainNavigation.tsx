@@ -1,7 +1,7 @@
-import React from "react";
-import useFetch from "@/hooks/useFetch";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
+
+import useFetch from "@/hooks/useFetch";
 import { CategoryType } from "@/types/CategoryType";
 
 function MainNavigation({ isDrawer = false }) {
@@ -38,11 +38,11 @@ function MainNavigation({ isDrawer = false }) {
 												"flex items-center  h-10 capitalize font-semibold relative  transition-all",
 												{
 													"border-b px-2": !isDrawer,
-													"border-b-transparent hover:border-b-primary-400":
+													"border-b-transparent hover:border-b-primary":
 														!isActive && !isDrawer,
-													"border-b-primary-700 text-primary": isActive && !isDrawer,
-													"p-4 hover:bg-slate-100 active:bg-slate-200": isDrawer,
-													"bg-slate-100": isActive && isDrawer,
+													"border-b-primary text-primary": isActive && !isDrawer,
+													"p-4 hover:bg-primary active:bg-primary": isDrawer,
+													"bg-primary": isActive && isDrawer,
 												}
 											)}
 										>

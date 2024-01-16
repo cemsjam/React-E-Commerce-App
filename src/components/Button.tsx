@@ -47,7 +47,7 @@ function Button({
 					variant === "primary-subtle",
 				"font-semibold rounded-md bg-gray-50 text-gray-900  hover:bg-gray-100 active:bg-gray-200":
 					variant === "secondary-subtle",
-				"hover:text-primary active:text-primary-800 transition-colors inline-flex justify-center items-center rounded-full relative isolate after:content-[''] after:absolute after:w-full after:h-full after:bg-primary/10 after:z-[-1] after:rounded-full after:scale-0 hover:after:scale-100 after:transition after:ease-[cubic-bezier(0.22, 0.1, 0.1, 1)]":
+				"hover:text-primary active:text-primary-800 transition-colors inline-flex justify-center items-center rounded-full relative isolate after:content-[''] after:absolute after:w-full after:h-full after:bg-primary/10 after:z-[-1] after:rounded-full after:scale-0 focus:after:scale-100 focus-within:after:scale-100 hover:after:scale-100 after:transition after:ease-[cubic-bezier(0.22, 0.1, 0.1, 1)]":
 					variant === "icon",
 			}),
 			...rest,

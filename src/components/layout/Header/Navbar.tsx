@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
 
-import SearchBar from "@/layout/Header/SearchBar";
+import SearchBar from "@/components/layout/Header/SearchBar";
 import Offcanvas from "@/components/Offcanvas/Offcanvas";
 import MainNavigation from "./MainNavigation";
 import MobileMenu from "./MobileMenu";
