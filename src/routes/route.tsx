@@ -8,6 +8,7 @@ import ProductPage from "@/pages/ProductPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
 import AccountPage from "@/pages/Account";
+import WishlistPage from "@/pages/WishlistPage";
 
 export const routes: RouteObject[] = [
 	{
@@ -37,6 +38,10 @@ export const routes: RouteObject[] = [
 			{
 				path: "/account",
 				element: <AccountPage />,
+			},
+			{
+				path: "/wishlist",
+				element: <WishlistPage />,
 			},
 		],
 	},

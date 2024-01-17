@@ -8,19 +8,21 @@ import { useUser } from "@clerk/clerk-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
 import { useModalStore } from "@/stores/modalStore";
-import { useWishlistStore } from "@/stores/wishlistStore";
+import { WishlistProduct, useWishlistStore } from "@/stores/wishlistStore";
 
 import Button from "./Button";
 import VisualOnlySvg from "./VisualOnlySvg";
+import useUserStore from "@/stores/userStore";
 
 function Card({ product }: { product: Product }) {
 	const { id, title, description, stock, price, thumbnail } = product;
 	const addToCart = useCartStore((state) => state.addToCart);
 	const addToWishlist = useWishlistStore((state) => state.addToWishlist);
-	// const wishlistItems = useWishlistStore((state) => state.wishlistItems);
+	const wishlists = useWishlistStore((state) => state.wishlists);
 	const { user } = useUser();
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
 	const append = useModalStore((state) => state.append);
+
 	const handleAddToCart = (product: Product) => {
 		if (product) {
 			toggleOffcanvas();
@@ -28,14 +30,20 @@ function Card({ product }: { product: Product }) {
 			addToCart(product);
 		}
 	};
-	console.log(user?.primaryEmailAddress?.emailAddress);
-	const handleAddToWishlist = (product: Product) => {
+	const handleAddToWishlist = (product: WishlistProduct) => {
 		if (product) {
 			toast.success(`${product.title} has been added to Wishlist!`);
-			addToWishlist(product);
+			if (user && user.primaryEmailAddress) {
+				const wishlistItem = { currentUser: user, product };
+				addToWishlist(wishlistItem);
+			} else {
+				const wishlistItem = { currentUser: null, product };
+				addToWishlist(wishlistItem);
+			}
+			// console.log(wishlistItems);
 		}
 	};
-
+	console.log(wishlists);
 	const handleQuickviewModal = (product: Product) => {
 		append("quickview", product);
 	};

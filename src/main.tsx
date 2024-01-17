@@ -10,6 +10,7 @@ import { routes } from "./routes/route";
 import "@/styles/index.css";
 
 import Modal from "@/components/modals/Modal";
+import UserProvider from "./user-provider";
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 					<RouterProvider router={router} />
 				</SkeletonTheme>
 			</Provider>
+			<UserProvider />
 		</ClerkProvider>
 	</React.StrictMode>
 );
