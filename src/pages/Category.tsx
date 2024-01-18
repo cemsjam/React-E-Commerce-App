@@ -2,7 +2,7 @@ import type { Product, Products } from "@/types/Product";
 import { useParams } from "react-router-dom";
 
 import useFetch from "@/hooks/useFetch";
-import Card from "@/components/Card";
+import Card from "@/components/Cards/Card";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import CardSkeleton from "@/components/CardSkeleton";
 
@@ -24,8 +24,8 @@ function Category() {
 			<div>
 				<Breadcrumb />
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-					{Array.from({ length: 4 }, (_) => (
-						<CardSkeleton />
+					{Array.from({ length: 4 }, (_, i) => (
+						<CardSkeleton key={"category-skeleton" + i} />
 					))}
 				</div>
 			</div>

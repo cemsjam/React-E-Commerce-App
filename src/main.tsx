@@ -29,8 +29,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 					<Modal />
 					<RouterProvider router={router} />
 				</SkeletonTheme>
+				<UserProvider />
 			</Provider>
-			<UserProvider />
 		</ClerkProvider>
 	</React.StrictMode>
 );
