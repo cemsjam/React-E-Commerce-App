@@ -1,30 +1,32 @@
+import { Product } from "@/types/Product";
 import { UserResource } from "@clerk/types";
 import { create } from "zustand";
 
-export type WishlistProduct = {
-	id: number;
-	title: string;
-	quantity: number;
-	price: number;
-	thumbnail: string;
-};
 type WishlistItem = {
 	currentUser: UserResource | null | undefined;
-	product: WishlistProduct;
+	product: Product;
 };
 
 type WishlistState = {
-	wishlists: {};
-	addToWishlist: (payload: WishlistItem) => void;
-	// removeFromWishlist: (payload: WishlistItem) => void;
+	wishlists: Record<string, Product[]>;
+	toggleWishlist: (payload: WishlistItem) => void;
+	isProductInWishlist: (payload: WishlistItem) => boolean;
 };
 
-type SetState = (fn: (state: WishlistState) => WishlistState) => void;
+// Retrieve data from local storage on initial load
+const initialState = (() => {
+	try {
+		const storedState = localStorage.getItem("wishlistKey");
+		return storedState ? JSON.parse(storedState) : { wishlists: {} };
+	} catch (error) {
+		console.error("Error loading from local storage:", error);
+		return { wishlists: {} };
+	}
+})();
 
-const store = (set: SetState) => ({
-	wishlists: {},
-	addToWishlist: (payload: WishlistItem) => {
-		console.log("add to wishlist");
+export const useWishlistStore = create<WishlistState>((set, get) => ({
+	...initialState,
+	toggleWishlist: (payload: WishlistItem) => {
 		set((state) => {
 			const { wishlists } = state;
 			const { currentUser, product } = payload;
@@ -32,7 +34,11 @@ const store = (set: SetState) => ({
 			if (!currentUser) {
 				// If not logged in, use a default wishlist
 				const defaultWishlist = wishlists["default"] || [];
-				const updatedWishlist = [...defaultWishlist, product];
+				const isProductInWishlist = defaultWishlist.includes(product);
+
+				const updatedWishlist = isProductInWishlist
+					? defaultWishlist.filter((item: Product) => item.id !== product.id)
+					: [...defaultWishlist, product];
 
 				const updatedState = {
 					...state,
@@ -40,13 +46,21 @@ const store = (set: SetState) => ({
 				};
 
 				// Persist the updated state to local storage
-				localStorage.setItem("wishlistKey", JSON.stringify(updatedState));
+				try {
+					localStorage.setItem("wishlistKey", JSON.stringify(updatedState));
+				} catch (error) {
+					console.error("Error saving to local storage:", error);
+				}
 
 				return updatedState;
 			} else {
 				// If logged in, use the user's wishlist
 				const userWishlist = wishlists[currentUser.id] || [];
-				const updatedWishlist = [...userWishlist, product];
+				const isProductInWishlist = userWishlist.includes(product);
+
+				const updatedWishlist = isProductInWishlist
+					? userWishlist.filter((item: Product) => item.id !== product.id)
+					: [...userWishlist, product];
 
 				const updatedState = {
 					...state,
@@ -54,42 +68,25 @@ const store = (set: SetState) => ({
 				};
 
 				// Persist the updated state to local storage
-				localStorage.setItem("wishlistKey", JSON.stringify(updatedState));
+				try {
+					localStorage.setItem("wishlistKey", JSON.stringify(updatedState));
+				} catch (error) {
+					console.error("Error saving to local storage:", error);
+				}
 
 				return updatedState;
 			}
 		});
 	},
-	// persistToLocalStorage: () => {
-	//   const storageKey = 'myZustandKey';
+	isProductInWishlist: (payload: WishlistItem) => {
+		const { wishlists } = get();
 
-	//   // Try to load from local storage
-	//   const storedState = JSON.parse(localStorage.getItem(storageKey));
-
-	//   // If there's stored state, set it as the initial state
-	//   if (storedState) {
-	//     set(storedState);
-	//   }
-
-	//   // Subscribe to changes in the Zustand store
-	//   return (state) => {
-	//     localStorage.setItem(storageKey, JSON.stringify(state));
-	//   };
-	// },
-	// removeFromWishlist: (payload: WishlistItem) =>
-	// 	set((state) => {
-	// 		if (payload) {
-	// 			const filteredItems = state.wishlistItems.filter(
-	// 				(item) => item.product.id !== payload.product.id
-	// 			);
-	// 			return {
-	// 				...state,
-	// 				wishlistItems: filteredItems,
-	// 			};
-	// 		}
-	// 		return state;
-	// 	}),
-});
-
-// store.subscribe(store.persistToLocalStorage());
-export const useWishlistStore = create<WishlistState>(store);
+		if (!payload.currentUser) {
+			const defaultWishlist = wishlists["default"] || [];
+			return defaultWishlist.some((item) => item.id === payload.product.id);
+		} else {
+			const userWishlist = wishlists[payload.currentUser.id] || [];
+			return userWishlist.some((item) => item.id === payload.product.id);
+		}
+	},
+}));

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Product } from "@/types/Product";
 
 import usePagination from "@/hooks/usePagination";
-import Card from "./Card";
+import Card from "./Cards/Card";
 import { InfiniteScroll } from "./InfiniteScroll";
 
 //#region framer motion

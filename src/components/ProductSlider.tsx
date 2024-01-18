@@ -7,7 +7,7 @@ import {
 	CarouselApi,
 } from "@/components/Carousel/Carousel";
 import { useEffect, useState } from "react";
-import Card from "./Card";
+import Card from "./Cards/Card";
 import CardSkeleton from "./CardSkeleton";
 type ProductSliderType = {
 	categoryName: string;
