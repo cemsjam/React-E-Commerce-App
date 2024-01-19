@@ -1,24 +1,19 @@
 import { create } from "zustand";
 
 type DrawerContent = {
-  name: string;
-  data?: object | any[];
+	name: string;
+	data?: object | any[];
 };
 
 type DrawerState = {
-  drawer: [] | null;
+	drawer: any[] | null;
+	openDrawer: ({ name, data }: DrawerContent) => void;
+	closeDrawer: () => void;
 };
 
-type Actions = {
-  openDrawer: ({ name, data }: DrawerContent) => void;
-  closeDrawer: () => void;
-};
-
-const initialStates: DrawerState = {
-  drawer: null,
-};
-
-export const useDrawerStore = create<DrawerState, Actions>((set: any) => ({
-  openDrawer: ({ name, data }: DrawerContent) => set(() => ({ drawer: data ? [{ name, data }] : [{ name }] })),
-  closeDrawer: () => set(() => ({ drawer: [] })),
+export const useDrawerStore = create<DrawerState>((set: any) => ({
+	drawer: null,
+	openDrawer: ({ name, data }: DrawerContent) =>
+		set(() => ({ drawer: data ? [{ name, data }] : [{ name }] })),
+	closeDrawer: () => set(() => ({ drawer: [] })),
 }));

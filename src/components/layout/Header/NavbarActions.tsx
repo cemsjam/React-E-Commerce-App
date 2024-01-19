@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth, useClerk } from "@clerk/clerk-react";
+import { useAuth, useClerk, useUser } from "@clerk/clerk-react";
 import { User, ShoppingCart, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,15 +17,19 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/dropdown-menu/DropdownMenu";
+import { useWishlistStore } from "@/stores/wishlistStore";
 
 const NavbarActions = () => {
 	const [open, setOpen] = useState(false);
 	const { isLoaded, isSignedIn } = useAuth();
 	const { signOut } = useClerk();
+	const { user } = useUser();
 	const cartItems = useCartStore((state) => state.cartItems);
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
+	const wishlists = useWishlistStore((state) => state.wishlists);
+	const activeUser = user ? user.id : "default";
 	const isUserSignedIn = isLoaded && isSignedIn;
-
+	const wishlistCount = user ? wishlists[user.id]?.length : wishlists["default"]?.length;
 	return (
 		<ul className="flex items-center">
 			{/* PROFILE */}
@@ -112,11 +116,11 @@ const NavbarActions = () => {
 							<Heart size={20} />
 						</VisualOnlySvg>
 					</Link>
-					{/* {cartItems?.length > 0 && (
+					{wishlistCount && wishlistCount > 0 && (
 						<span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
-							{cartItems?.length}
+							{wishlistCount}
 						</span>
-					)} */}
+					)}
 				</Button>
 			</li>
 			{/* CART */}
@@ -130,9 +134,9 @@ const NavbarActions = () => {
 					<VisualOnlySvg>
 						<ShoppingCart size={20} />
 					</VisualOnlySvg>
-					{cartItems?.length > 0 && (
+					{cartItems[activeUser]?.length > 0 && (
 						<span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
-							{cartItems?.length}
+							{cartItems[activeUser]?.length}
 						</span>
 					)}
 				</Button>

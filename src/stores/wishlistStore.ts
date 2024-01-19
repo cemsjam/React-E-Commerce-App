@@ -34,7 +34,7 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
 			if (!currentUser) {
 				// If not logged in, use a default wishlist
 				const defaultWishlist = wishlists["default"] || [];
-				const isProductInWishlist = defaultWishlist.includes(product);
+				const isProductInWishlist = defaultWishlist.find((item) => item.id === product.id);
 
 				const updatedWishlist = isProductInWishlist
 					? defaultWishlist.filter((item: Product) => item.id !== product.id)
@@ -56,7 +56,7 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
 			} else {
 				// If logged in, use the user's wishlist
 				const userWishlist = wishlists[currentUser.id] || [];
-				const isProductInWishlist = userWishlist.includes(product);
+				const isProductInWishlist = userWishlist.find((item) => item.id === product.id);
 
 				const updatedWishlist = isProductInWishlist
 					? userWishlist.filter((item: Product) => item.id !== product.id)

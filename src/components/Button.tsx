@@ -1,8 +1,14 @@
 import React, { createElement, memo } from "react";
 import classNames from "classnames";
+import { LinkProps } from "react-router-dom";
 
 type ButtonProps = {
-	as?: React.ReactNode | HTMLElement | React.ReactElement | string;
+	as?:
+		| React.ReactNode
+		| HTMLElement
+		| React.ReactElement
+		| string
+		| React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement>>;
 	children?: React.ReactNode;
 	alignment?: string;
 	fit?: string;
