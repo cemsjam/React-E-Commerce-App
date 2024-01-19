@@ -1,36 +1,31 @@
+import { Product } from "@/types/Product";
+import { UserResource } from "@clerk/types";
 import { create } from "zustand";
 
-type CartItem = {
-	id: number;
-	title: string;
-	quantity: number;
-	price: number;
-	thumbnail: string;
+type CartPayload = {
+	user: UserResource | null | undefined;
+	product: Product;
 };
 
-type InitialStates = {
-	cartItems: CartItem[];
+type InitialStatesType = {
+	cartItems: Product[];
 	total: number;
 };
 
-type CartState = InitialStates & {
-	cartItems: CartItem[];
-	total: number;
-	addToCart: (payload: CartItem) => void;
-	removeFromCart: (payload: CartItem) => void;
-	changeQuantity: (payload: CartItem) => void;
+type CartState = InitialStatesType & {
+	addToCart: (payload: Product) => void;
+	removeFromCart: (payload: Product) => void;
+	changeQuantity: (payload: Product) => void;
 };
 
-type SetState = (fn: (state: CartState) => CartState) => void;
-
-const initialStates: InitialStates = {
+const initialStates: InitialStatesType = {
 	cartItems: [],
 	total: 0,
 };
 
-const store = (set: SetState) => ({
+export const useCartStore = create<CartState>((set) => ({
 	...initialStates,
-	addToCart: (payload: CartItem) =>
+	addToCart: (payload: Product) =>
 		set((state) => {
 			const thisCartProduct = state.cartItems.find((el) => el.id === payload.id);
 			const addedQuantity = payload.quantity ? payload.quantity : 1;
@@ -61,7 +56,7 @@ const store = (set: SetState) => ({
 			}
 			return state;
 		}),
-	removeFromCart: (payload: CartItem) =>
+	removeFromCart: (payload: Product) =>
 		set((state) => {
 			if (payload) {
 				const removedProductQuantity = payload.quantity;
@@ -75,7 +70,7 @@ const store = (set: SetState) => ({
 			}
 			return state;
 		}),
-	changeQuantity: (payload: CartItem) =>
+	changeQuantity: (payload: Product) =>
 		set((state) => {
 			if (payload) {
 				const newQuantity = payload.quantity;
@@ -98,5 +93,4 @@ const store = (set: SetState) => ({
 			}
 			return state;
 		}),
-});
-export const useCartStore = create<CartState>(store);
+}));
