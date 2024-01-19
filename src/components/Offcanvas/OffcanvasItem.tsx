@@ -6,13 +6,15 @@ import { useCartStore } from "@/stores/cartStore";
 
 import CustomNumberInput from "./CustomNumberInput";
 import VisualOnlySvg from "../VisualOnlySvg";
+import { useUser } from "@clerk/clerk-react";
 
 function OffcanvasItem({ product }: { product: Product }) {
 	const { title, price, thumbnail, quantity } = product;
+	const { user } = useUser();
 	const removeFromCart = useCartStore((state) => state.removeFromCart);
-	const handleremoveFromCart = (product: Product) => {
+	const handleRemoveFromCart = (product: Product) => {
 		if (product) {
-			removeFromCart(product);
+			removeFromCart({ currentUser: user, product });
 			toast.success(`Removed ${product.title} from Cart`);
 		}
 	};
@@ -36,7 +38,7 @@ function OffcanvasItem({ product }: { product: Product }) {
 							type="button"
 							aria-label="Remove Product"
 							className="mb-auto ml-auto hover:text-red-700 transition-all active:scale-95"
-							onClick={() => handleremoveFromCart(product)}
+							onClick={() => handleRemoveFromCart(product)}
 						>
 							<VisualOnlySvg>
 								<PiTrash size={20} />

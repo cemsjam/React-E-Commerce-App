@@ -23,11 +23,11 @@ const NavbarActions = () => {
 	const [open, setOpen] = useState(false);
 	const { isLoaded, isSignedIn } = useAuth();
 	const { signOut } = useClerk();
+	const { user } = useUser();
 	const cartItems = useCartStore((state) => state.cartItems);
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
 	const wishlists = useWishlistStore((state) => state.wishlists);
-	const { user } = useUser();
-
+	const activeUser = user ? user.id : "default";
 	const isUserSignedIn = isLoaded && isSignedIn;
 	const wishlistCount = user ? wishlists[user.id]?.length : wishlists["default"]?.length;
 	return (
@@ -134,9 +134,9 @@ const NavbarActions = () => {
 					<VisualOnlySvg>
 						<ShoppingCart size={20} />
 					</VisualOnlySvg>
-					{cartItems?.length > 0 && (
+					{cartItems[activeUser]?.length > 0 && (
 						<span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
-							{cartItems?.length}
+							{cartItems[activeUser]?.length}
 						</span>
 					)}
 				</Button>

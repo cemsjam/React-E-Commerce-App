@@ -3,94 +3,125 @@ import { UserResource } from "@clerk/types";
 import { create } from "zustand";
 
 type CartPayload = {
-	user: UserResource | null | undefined;
+	currentUser: UserResource | null | undefined;
 	product: Product;
 };
 
-type InitialStatesType = {
-	cartItems: Product[];
-	total: number;
+type CartState = {
+	cartItems: Record<string, Product[]>;
+	addToCart: (payload: CartPayload) => void;
+	removeFromCart: (payload: CartPayload) => void;
+	changeQuantity: (payload: CartPayload) => void;
 };
 
-type CartState = InitialStatesType & {
-	addToCart: (payload: Product) => void;
-	removeFromCart: (payload: Product) => void;
-	changeQuantity: (payload: Product) => void;
-};
-
-const initialStates: InitialStatesType = {
-	cartItems: [],
-	total: 0,
-};
+const initialState = (() => {
+	try {
+		const storedState = localStorage.getItem("cartKey");
+		return storedState ? JSON.parse(storedState) : { cartItems: {} };
+	} catch (error) {
+		console.error("Error loading from local storage:", error);
+		return { cartItems: {} };
+	}
+})();
 
 export const useCartStore = create<CartState>((set) => ({
-	...initialStates,
-	addToCart: (payload: Product) =>
+	...initialState,
+	addToCart: (payload: CartPayload) =>
 		set((state) => {
-			const thisCartProduct = state.cartItems.find((el) => el.id === payload.id);
-			const addedQuantity = payload.quantity ? payload.quantity : 1;
-			if (thisCartProduct) {
-				const existingQuantity = thisCartProduct.quantity;
-				const totalQuantity = existingQuantity + addedQuantity;
-				const updatedItems = state.cartItems.map((item) => {
-					if (item.id === payload.id) {
-						return { ...item, quantity: totalQuantity };
-					} else {
-						return item;
-					}
-				});
-				return {
+			const { cartItems } = state;
+			const { currentUser, product } = payload;
+			if (!currentUser) {
+				const defaultCart = cartItems["default"] || [];
+				const isProductInCart = defaultCart.find((el) => el.id === product.id);
+
+				const updatedCart = isProductInCart
+					? defaultCart.map((el) => {
+							if (el.id === product.id) {
+								return { ...el, quantity: el.quantity + 1 };
+							} else {
+								return el;
+							}
+					  })
+					: [...defaultCart, { ...product, quantity: 1 }];
+
+				const updatedState = {
 					...state,
-					cartItems: updatedItems,
-					total: state.total + addedQuantity * payload.price,
+					cartItems: { ...cartItems, default: updatedCart },
 				};
-			} else {
-				const newItem = { ...payload, quantity: addedQuantity };
-				if (newItem) {
-					return {
-						...state,
-						cartItems: [...state.cartItems, newItem],
-						total: state.total + newItem.price,
-					};
+				try {
+					localStorage.setItem("cartKey", JSON.stringify(updatedState));
+				} catch (error) {
+					console.error("Error saving to local storage:", error);
 				}
-			}
-			return state;
-		}),
-	removeFromCart: (payload: Product) =>
-		set((state) => {
-			if (payload) {
-				const removedProductQuantity = payload.quantity;
-				const filteredItems = state.cartItems.filter((item) => item.id !== payload.id);
-				const currentTotal = state.total - payload.price * removedProductQuantity;
-				return {
+				return updatedState;
+			} else {
+				const userCart = cartItems[currentUser.id] || [];
+				const isProductInCart = userCart.find((el) => el.id === product.id);
+				const updatedCart = isProductInCart
+					? userCart.map((el) => {
+							if (el.id === product.id) {
+								return { ...el, quantity: el.quantity + 1 };
+							} else {
+								return el;
+							}
+					  })
+					: [...userCart, { ...product, quantity: 1 }];
+
+				const updatedState = {
 					...state,
-					cartItems: filteredItems,
-					total: currentTotal,
+					cartItems: { ...cartItems, [currentUser.id]: updatedCart },
 				};
+				try {
+					localStorage.setItem("cartKey", JSON.stringify(updatedState));
+				} catch (error) {
+					console.error("Error saving to local storage:", error);
+				}
+				return updatedState;
 			}
-			return state;
 		}),
-	changeQuantity: (payload: Product) =>
+	removeFromCart: (payload: CartPayload) =>
 		set((state) => {
-			if (payload) {
-				const newQuantity = payload.quantity;
-				const newCartItems = state.cartItems.map((product) => {
-					if (product.id === payload.id) {
-						return { ...product, quantity: newQuantity };
-					} else {
-						return product;
-					}
-				});
-				const totalCost = newCartItems.reduce(
-					(acc, product) => (acc += product.price * product.quantity),
-					0
-				);
-				return {
-					...state,
-					cartItems: newCartItems,
-					total: totalCost,
-				};
+			const { cartItems } = state;
+			const { currentUser, product } = payload;
+			const currentCart = currentUser
+				? cartItems[currentUser.id] || []
+				: cartItems["default"] || [];
+
+			const updatedCart = currentCart.filter((el) => el.id !== product.id);
+
+			const updatedState = {
+				...state,
+				cartItems: { ...cartItems, [currentUser ? currentUser.id : "default"]: updatedCart },
+			};
+
+			try {
+				localStorage.setItem("cartKey", JSON.stringify(updatedState));
+			} catch (error) {
+				console.error("Error saving to local storage:", error);
 			}
-			return state;
+			return updatedState;
+		}),
+	changeQuantity: (payload: CartPayload) =>
+		set((state) => {
+			const { cartItems } = state;
+			const { currentUser, product } = payload;
+
+			const currentCart = currentUser
+				? cartItems[currentUser.id] || []
+				: cartItems["default"] || [];
+
+			const updatedCart = currentCart.map((el) => (el.id === product.id ? product : el));
+
+			const updatedState = {
+				...state,
+				cartItems: { ...cartItems, [currentUser ? currentUser.id : "default"]: updatedCart },
+			};
+
+			try {
+				localStorage.setItem("cartKey", JSON.stringify(updatedState));
+			} catch (error) {
+				console.error("Error saving to local storage:", error);
+			}
+			return updatedState;
 		}),
 }));

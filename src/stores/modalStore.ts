@@ -7,37 +7,35 @@ type ModalStates = {
 	destroyAll: () => void;
 };
 
-const initialStates = {
-	modals: [],
-};
 export const useModalStore = create<ModalStates>((set) => ({
-	...initialStates,
+	modals: [],
 	append: (name, data) =>
 		set((state) => {
-			if (state.modals.length < 1) {
-				state.modals = [{ name, data }];
+			const { modals } = state;
+			if (modals.length < 1) {
+				const newModals = [{ name, data }];
+				return { ...state, modals: newModals };
 			} else {
-				const isModalExist = state.modals.find((modal) => modal.name === name);
+				const isModalExist = modals.find((modal) => modal.name === name);
 				if (!isModalExist) {
-					state.modals = [...state.modals, { name, data }];
+					const updatedModals = [...modals, { name, data }];
+					return { ...state, modals: updatedModals };
+				} else {
+					return state;
 				}
 			}
-			console.log(state.modals);
-			return state.modals;
 		}),
 	destroy: () =>
 		set((state) => {
 			if (state.modals.length > 0) {
 				const newModals = state.modals;
 				newModals.pop();
-				state.modals = newModals;
+				return { ...state, modals: newModals };
 			}
-			console.log("destroy called", state.modals);
-			return state.modals;
+			return state;
 		}),
 	destroyAll: () =>
 		set((state) => {
-			state.modals = [];
-			return state.modals;
+			return { ...state, modals: [] };
 		}),
 }));
