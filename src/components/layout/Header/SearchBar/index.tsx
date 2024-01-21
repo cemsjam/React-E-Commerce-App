@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
 import { AiOutlineSearch } from "react-icons/ai";
-
+import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/Product";
 
 import Loader from "@/components/Loader";
@@ -11,7 +11,8 @@ import Suggestions from "@/components/layout/Header/SearchBar/Suggestions";
 
 function SearchBar() {
 	const [query, setQuery] = useState("");
-	const debouncedValue = useDebounce(query, 1000);
+	const debouncedValue = useDebounce(query, 500);
+	const navigate = useNavigate();
 	const [suggestions, setSuggestions] = useState<{ products: Product[] }>({ products: [] });
 	const [notFound, setNotFound] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -71,35 +72,27 @@ function SearchBar() {
 		return () => document.removeEventListener("click", handleClickOutside);
 	}, []);
 	//#endregion
+	const onHandleSearchButtonClick = () => {
+		if (debouncedValue.length >= 3 && suggestions.products.length > 0) {
+			navigate(`/search?${new URLSearchParams({ q: debouncedValue })}`, {
+				state: suggestions,
+			});
+		}
+	};
 	return (
 		<div
 			className={classNames(
-				"relative order-last md:order-none md:max-w-lg w-full border border-transparent z-40 isolate",
-				{
-					"shadow-2xl": focused,
-				}
+				"h-[40px] relative order-last md:order-none md:max-w-lg w-full border border-transparent z-40 isolate"
 			)}
 			ref={searchContainerRef}
 		>
-			<form className="relative z-50">
-				<button
-					type="submit"
-					aria-label="Search Submit Button"
-					className="absolute left-2 top-1/2 -translate-y-1/2 text-primary"
-				>
-					<VisualOnlySvg>
-						<AiOutlineSearch />
-					</VisualOnlySvg>
-				</button>
+			<form className="search-container-form relative z-50">
 				<label className="sr-only" htmlFor="Search">
 					Search Any Product Here!
 				</label>
 				<input
 					className={classNames(
-						"w-full rounded-sm border border-primary  py-1.5 px-8 placeholder:text-sm  font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none",
-						{
-							"border-primary-700": focused,
-						}
+						"search-input h-[40px] w-full rounded-sm border  py-1.5 pl-4 pr-[60px] placeholder:text-sm  font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none"
 					)}
 					name="search"
 					id="Search"
@@ -109,6 +102,16 @@ function SearchBar() {
 					onFocus={() => setFocused(true)}
 					placeholder="Search Any Product Here!"
 				/>
+				<button
+					type="button"
+					aria-label="Visit Search Page"
+					className="search-button w-[60px] h-[40px] flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2"
+					onClick={onHandleSearchButtonClick}
+				>
+					<VisualOnlySvg>
+						<AiOutlineSearch size={20} />
+					</VisualOnlySvg>
+				</button>
 			</form>
 			<div
 				className={classNames("absolute top-full left-0 w-full bg-white -mt-[1px] ", {
@@ -118,7 +121,7 @@ function SearchBar() {
 				{debouncedValue.length >= 3 && focused && (
 					<ul
 						className={classNames("w-full flex flex-col", {
-							"border border-primary-700 border-t-transparent shadow-2xl rounded-b-sm overflow-hidden":
+							"border border-gray-300 border-t-transparent shadow-2xl rounded-b-sm overflow-hidden":
 								focused,
 						})}
 					>
