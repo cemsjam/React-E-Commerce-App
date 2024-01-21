@@ -40,7 +40,7 @@ const NavbarActions = () => {
 							<Button
 								variant="icon"
 								as="button"
-								className={cn("relative w-8 h-8", {
+								className={cn("relative w-10 h-10", {
 									"after:scale-100": open,
 								})}
 								aria-label="Profile Menu"
@@ -106,10 +106,10 @@ const NavbarActions = () => {
 			</li>
 			{/* WISHLIST */}
 			<li>
-				<Button variant="icon" className="relative w-8 h-8" as="div">
+				<Button variant="icon" className="relative w-10 h-10" as="div">
 					<Link
 						to="/wishlist"
-						className="w-full h-full flex items-center justify-center"
+						className=" w-full h-full flex items-center justify-center"
 						aria-label="Visit Wishlist Page"
 					>
 						<VisualOnlySvg>
@@ -117,7 +117,7 @@ const NavbarActions = () => {
 						</VisualOnlySvg>
 					</Link>
 					{wishlistCount && wishlistCount > 0 && (
-						<span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
+						<span className="badge absolute top-0 left-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
 							{wishlistCount}
 						</span>
 					)}
@@ -127,15 +127,15 @@ const NavbarActions = () => {
 			<li>
 				<Button
 					variant="icon"
-					className="relative w-8 h-8"
+					className="relative"
 					onClick={toggleOffcanvas}
 					aria-label="Toggle Shopping Cart"
 				>
-					<VisualOnlySvg>
-						<ShoppingCart size={20} />
+					<VisualOnlySvg className="navbar-action-btn-bg">
+						<ShoppingCart className="relative z-[2]" size={20} />
 					</VisualOnlySvg>
 					{cartItems[activeUser]?.length > 0 && (
-						<span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
+						<span className="badge absolute -top-2 -left-2 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
 							{cartItems[activeUser]?.length}
 						</span>
 					)}

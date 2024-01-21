@@ -33,7 +33,7 @@ function Navbar() {
 	return (
 		<div>
 			<header className=" bg-white">
-				<nav className="container py-1 md-py-0 md:h-[50px] flex flex-wrap md:flex-nowrap justify-between items-center gap-2">
+				<nav className="container py-3 md:py-1 md:h-[70px] flex flex-wrap md:flex-nowrap justify-between items-center gap-2">
 					<MobileMenu />
 					<Logo />
 					<SearchBar />

@@ -29,13 +29,13 @@ function MainNavigation({ isDrawer = false }) {
 					})}
 				>
 					{data &&
-						data.slice(0, 5).map((category) => (
+						data.slice(0, 7).map((category) => (
 							<li key={category} className="md:[&:first-child>a>span]:pl-0">
 								<NavLink to={`/category/${category}`}>
 									{({ isActive }) => (
 										<span
 											className={classNames(
-												"flex items-center  h-10 capitalize font-semibold relative  transition-all",
+												"flex items-center  h-10 uppercase font-medium relative transition-all ",
 												{
 													"border-b px-2": !isDrawer,
 													"border-b-transparent hover:border-b-primary":

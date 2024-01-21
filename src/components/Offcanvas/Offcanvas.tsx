@@ -61,8 +61,8 @@ const Offcanvas = React.forwardRef(
 						</header>
 						{/* body */}
 						<div className="p-4 pt-0 overflow-auto flex flex-col divide-y divide-gray-200">
-							{cartItems[currentCart].length >= 1 ? (
-								cartItems[currentCart].map((product) => (
+							{cartItems[currentCart]?.length >= 1 ? (
+								cartItems[currentCart]?.map((product) => (
 									<OffcanvasItem key={product.id} product={product as Product} />
 								))
 							) : (
