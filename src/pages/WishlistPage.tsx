@@ -12,12 +12,10 @@ const WishlistPage = () => {
 	const products = user ? wishlists[user.id] : wishlists["default"];
 	console.log(products);
 	return (
-		<div>
+		<div className="container p-4">
 			<h1>Wishlist</h1>
 			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-				{products.map((product: Product) => (
-					<Card key={product.id} product={product} />
-				))}
+				{products?.map((product: Product) => <Card key={product.id} product={product} />)}
 			</div>
 		</div>
 	);

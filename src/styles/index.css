@@ -18,10 +18,7 @@
 	}
 	body {
 		background-color: #fff;
-		@apply text-base;
-		@apply antialiased;
-		@apply font-almarai;
-		@apply bg-[#eeeeee];
+		@apply text-base antialiased font-almarai bg-[#eeeeee];
 	}
 
 	input[name="quantity"]::-webkit-inner-spin-button,

@@ -11,7 +11,7 @@ function MainLayout() {
 		<>
 			<div className="grid grid-rows-[auto,1fr,auto] min-h-screen">
 				<Navbar />
-				<main className="container py-4 flex-1">
+				<main className="flex-1">
 					<Outlet />
 				</main>
 				<Footer />

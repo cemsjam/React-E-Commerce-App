@@ -1,39 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 import { Product } from "@/types/Product";
-import { CategoryType } from "@/types/CategoryType";
 
-import useFetch from "@/hooks/useFetch";
 import Card from "@/components/Cards/Card";
-import { calculateMinMaxPricesFromArrayOfProducts } from "@/utils/utils";
+import FilterComponent, { type Filters } from "@/components/SearchPage/FilterComponent";
 
 const SearchPage = () => {
 	const location = useLocation();
 	const [searchParams] = useSearchParams();
 	const [listedProducts, setListedProducts] = useState<Product[]>([]);
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 	const searchQuery = searchParams.get("q");
-
-	const { data: categories } = useFetch<CategoryType>(
-		import.meta.env.VITE_APP_API_BASE_URL,
-		`/categories`
-	);
-	const [filters, setFilters] = useState([
-		{
-			id: "category",
-			name: "category",
-			options: categories?.map((category) => ({
-				value: category,
-				label: category,
-				checked: false,
-			})),
-		},
-	]);
-
-	const { minPrice, maxPrice } = useMemo(
-		() => calculateMinMaxPricesFromArrayOfProducts(listedProducts),
-		[listedProducts]
-	);
 
 	useEffect(() => {
 		if (!location.state || location.state.products.length < 0) {
@@ -47,68 +25,54 @@ const SearchPage = () => {
 				})
 				.then((json) => {
 					setListedProducts(json.products);
+					setFilteredProducts(json.products);
 				})
 				.catch((err) => console.log(err));
 		} else {
 			setListedProducts(location.state.products);
+			setFilteredProducts(location.state.products);
 		}
-	}, []);
+	}, [searchParams]);
 
-	const handleCheckboxChange = (section: string, selectedOption: string) => {};
+	const handleFilterChange = (filters: Filters) => {
+		// Implement your filtering logic based on the filters
+		// You can use array filter, lodash, or any other library for filtering
+
+		// For example, using array filter:
+		const filtered = listedProducts.filter((product) => {
+			const priceFilter =
+				(!filters.minPrice || product.price >= filters.minPrice) &&
+				(!filters.maxPrice || product.price <= filters.maxPrice);
+
+			const categoryFilter =
+				filters.categories.length === 0 || filters.categories.includes(product.category);
+
+			const ratingFilter =
+				!filters.minRating || product.rating >= parseFloat(filters.minRating);
+
+			const brandFilter =
+				filters.brands.length === 0 || filters.brands.includes(product.brand);
+
+			// Add more filter criteria as needed
+
+			return priceFilter && categoryFilter && ratingFilter && brandFilter;
+		});
+		console.log("filtered", filtered);
+		setFilteredProducts(filtered);
+	};
 	return (
-		<div className="flex flex-col lg:flex-row gap-4">
-			<aside className="bg-white p-2 radius-sm flex-[3]">
-				{filters?.map(
-					(section) =>
-						section.options?.map((option) => (
-							<div key={section.id} className="flex items-center">
-								<input
-									id={`filter-category-${option.value}`}
-									name="category"
-									defaultValue={""}
-									type="checkbox"
-									checked={option.checked}
-									onChange={() => handleCheckboxChange(section.id, option.value)}
-									className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-								/>
-								<label
-									htmlFor={`filter-category-${option.value}`}
-									className="ml-3 min-w-0 flex-1 text-base"
-								>
-									{option.label}
-								</label>
-							</div>
-						))
-				)}
-				<div>
-					<div className="relative mb-6">
-						<label htmlFor="labels-range-input" className="sr-only">
-							Labels range
-						</label>
-						<input
-							id="labels-range-input"
-							type="range"
-							value={minPrice + (maxPrice - minPrice) / 2}
-							min={minPrice?.toString()}
-							max={maxPrice?.toString()}
-							className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
-						/>
-						<span className="text-sm text-gray-500  absolute start-0 -bottom-6">
-							Min (${minPrice})
-						</span>
-
-						<span className="text-sm text-gray-500  absolute end-0 -bottom-6">
-							Max (${maxPrice})
-						</span>
+		<div className="container p-4 bg-white h-full">
+			<div className="flex flex-col lg:flex-row gap-4">
+				<aside className="bg-white p-3 radius-sm flex-[3]">
+					<FilterComponent products={listedProducts} onFilterChange={handleFilterChange} />
+				</aside>
+				<div className="flex-[9]">
+					<h1 className="mt-4">SearchPage</h1>
+					<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+						{filteredProducts?.map((product: Product) => (
+							<Card key={product.id} product={product} />
+						))}
 					</div>
-				</div>
-			</aside>
-			<div className="flex-[9]">
-				<h1>SearchPage</h1>
-				<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-					{listedProducts?.map((product: Product) => (
-						<Card key={product.id} product={product} />
-					))}
 				</div>
 			</div>
 		</div>

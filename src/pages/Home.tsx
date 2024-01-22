@@ -5,17 +5,19 @@ import ProductSlider from "@/components/ProductSlider";
 function Home() {
 	// return <ProductListing />;
 	return (
-		<div className="flex flex-col gap-8">
-			<HeroSlider />
-			<HomeSectionHeader title="Popular Laptops" href="/laptops" linkLabel="All Laptops" />
-			<ProductSlider categoryName="laptops" />
-			<HomeSectionHeader
-				title="Popular Smartphones"
-				href="/smartphones"
-				linkLabel="All Smartphones"
-				reversed
-			/>
-			<ProductSlider categoryName="smartphones" />
+		<div className="container p-4">
+			<div className="flex flex-col gap-8">
+				<HeroSlider />
+				<HomeSectionHeader title="Popular Laptops" href="/laptops" linkLabel="All Laptops" />
+				<ProductSlider categoryName="laptops" />
+				<HomeSectionHeader
+					title="Popular Smartphones"
+					href="/smartphones"
+					linkLabel="All Smartphones"
+					reversed
+				/>
+				<ProductSlider categoryName="smartphones" />
+			</div>
 		</div>
 	);
 }

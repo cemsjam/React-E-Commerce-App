@@ -21,7 +21,7 @@ function Category() {
 	);
 	if (loading || !data) {
 		return (
-			<div>
+			<div className="container p-4">
 				<Breadcrumb />
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 					{Array.from({ length: 4 }, (_, i) => (
@@ -32,7 +32,7 @@ function Category() {
 		);
 	} else if (data && data.products) {
 		return (
-			<div>
+			<div className="container p-4">
 				<Breadcrumb />
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 					{data.products.map((product: Product) => (
