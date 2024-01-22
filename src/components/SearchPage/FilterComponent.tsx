@@ -37,9 +37,9 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 
 	const allBrands = useMemo(
 		() =>
-			products.reduce((acc, item) => {
-				if (item.brand && !acc.includes(item.brand as string)) {
-					acc.push(item.brand as string);
+			products.reduce((acc: string[], item) => {
+				if (item.brand && !acc.includes(item.brand)) {
+					acc.push(item.brand);
 				}
 				return acc;
 			}, []),
@@ -52,13 +52,24 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 		// Validate and sanitize filter values if needed
 		onFilterChange(filters);
 	};
+	useEffect(() => {
+		handleFilterChange();
+	}, [filters]);
 
 	const onCheckboxChange = (filterKey: "categories" | "brands", value: string): void => {
-		console.log("change");
-		setFilters((prevFilters) => ({
-			...prevFilters,
-			[filterKey]: [...prevFilters[filterKey], value],
-		}));
+		setFilters((prevFilters) => {
+			if (prevFilters[filterKey].includes(value)) {
+				return {
+					...prevFilters,
+					[filterKey]: prevFilters[filterKey].filter((item) => item !== value),
+				};
+			} else {
+				return {
+					...prevFilters,
+					[filterKey]: [...prevFilters[filterKey], value],
+				};
+			}
+		});
 	};
 
 	return (
@@ -85,14 +96,16 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 					triggerTitle="Category"
 					key={`Collapsible-Category`}
 					arr={categoriesData.slice(0, 7)}
-					onCheckboxChange={(value: string) => onCheckboxChange("categories", value)}
+					onCheckboxChange={onCheckboxChange}
+					filterProperty="categories"
 				/>
 			)}
 			<CollapsibleCheckboxList
 				triggerTitle="Brands"
 				key={`Collapsible-Brands`}
 				arr={allBrands}
-				onCheckboxChange={(value: string) => onCheckboxChange("brands", value)}
+				onCheckboxChange={onCheckboxChange}
+				filterProperty="brands"
 			/>
 
 			<button onClick={handleFilterChange}>Apply Filters</button>
