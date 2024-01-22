@@ -9,6 +9,7 @@ type CollapsibleCheckboxListProps = {
 	arr: string[];
 	defaultOpen?: boolean;
 	onCheckboxChange: Function;
+	filterProperty: "categories" | "brands";
 };
 
 const CollapsibleCheckboxList = ({
@@ -16,12 +17,14 @@ const CollapsibleCheckboxList = ({
 	triggerTitle,
 	defaultOpen = false,
 	onCheckboxChange,
+	filterProperty,
 }: CollapsibleCheckboxListProps) => {
 	const [open, setOpen] = useState(defaultOpen);
 
 	const handleOnChange = (value: string) => {
-		onCheckboxChange(value);
+		onCheckboxChange(filterProperty, value);
 	};
+
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<CollapsibleTrigger asChild>
@@ -41,7 +44,7 @@ const CollapsibleCheckboxList = ({
 				<div className="flex flex-col gap-1">
 					{arr.map((item) => (
 						<div key={"filter-item-" + item} className="flex items-center gap-2">
-							<Checkbox id={item} onChange={() => handleOnChange(item)} />
+							<Checkbox id={item} onClick={() => handleOnChange(item.toLowerCase())} />
 							<Label htmlFor={item}>{item[0].toUpperCase() + item.slice(1)}</Label>
 						</div>
 					))}
