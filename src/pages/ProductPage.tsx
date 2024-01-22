@@ -24,7 +24,7 @@ function ProductPage() {
 	const { title, images } = data;
 
 	return (
-		<>
+		<div className="container p-4">
 			<Breadcrumb productName={title} isProductPage />
 			<div className="flex flex-col md:flex-row gap-10 py-2 sm:p-4">
 				<div className="flex-[7]">
@@ -34,7 +34,7 @@ function ProductPage() {
 					<BuyBox product={data} />
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
