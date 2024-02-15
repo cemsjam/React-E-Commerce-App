@@ -45,7 +45,7 @@ function Navbar() {
 				<div
 					ref={overlayRef}
 					className="overlay fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm"
-				></div>
+				/>
 			)}
 			<Offcanvas ref={offcanvasRef} isOpen={isOpen} onClick={toggleOffcanvas} />
 		</div>

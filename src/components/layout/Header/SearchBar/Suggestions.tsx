@@ -13,11 +13,11 @@ function Suggestions({ products, onClick }: SuggestionsPropTypes) {
 			<Link
 				onClick={onClick}
 				to={`/product/${id}`}
-				className="flex-1 min-[175px] flex gap-2 p-2 justify-center items-center text-center hover:bg-gray-100 cursor-pointer"
+				className="flex-1 min-[175px] flex gap-2 px-4 py-3 justify-center items-center text-center hover:bg-gray-100 cursor-pointer"
 			>
 				<img className="w-8 h-8" src={thumbnail} alt={title} width={40} height={40} />
 				<span className="flex-1 whitespace-nowrap font-medium">{title}</span>
-				<span className="text-primary font-medium">${price}</span>
+				<span className="text-black font-bold">${price}</span>
 			</Link>
 		</li>
 	));

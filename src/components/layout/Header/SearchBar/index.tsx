@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Product } from "@/types/Product";
@@ -79,20 +79,25 @@ function SearchBar() {
 			});
 		}
 	};
+
 	return (
 		<div
-			className={classNames(
+			className={cn(
 				"h-[40px] relative order-last md:order-none md:max-w-lg w-full border border-transparent z-40 isolate"
 			)}
 			ref={searchContainerRef}
 		>
-			<form className="search-container-form relative z-50">
+			<form className="relative z-50">
 				<label className="sr-only" htmlFor="Search">
 					Search Any Product Here!
 				</label>
 				<input
-					className={classNames(
-						"search-input h-[40px] w-full rounded-sm border  py-1.5 pl-4 pr-[60px] placeholder:text-sm  font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none"
+					className={cn(
+						"h-[40px] w-full rounded-md border border-transparent py-1.5 pl-4 pr-[60px] placeholder:text-sm bg-[#f3f3f3] font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none",
+						{
+							"border-primary": focused,
+							"rounded-b-none": debouncedValue.length >= 3,
+						}
 					)}
 					name="search"
 					id="Search"
@@ -105,7 +110,7 @@ function SearchBar() {
 				<button
 					type="button"
 					aria-label="Visit Search Page"
-					className="search-button w-[60px] h-[40px] flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2"
+					className="w-[40px] h-[40px] text-primary flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2"
 					onClick={onHandleSearchButtonClick}
 				>
 					<VisualOnlySvg>
@@ -114,14 +119,14 @@ function SearchBar() {
 				</button>
 			</form>
 			<div
-				className={classNames("absolute top-full left-0 w-full bg-white -mt-[1px] ", {
+				className={cn("absolute top-full left-0 w-full bg-white -mt-[1px] ", {
 					"z-40": focused,
 				})}
 			>
 				{debouncedValue.length >= 3 && focused && (
 					<ul
-						className={classNames("w-full flex flex-col", {
-							"border border-gray-300 border-t-transparent shadow-2xl rounded-b-sm overflow-hidden":
+						className={cn("w-full flex flex-col", {
+							"border border-primary border-t-transparent shadow-2xl rounded-b-sm overflow-hidden":
 								focused,
 						})}
 					>
