@@ -21,7 +21,10 @@ const Offcanvas = React.forwardRef(
 		const { user } = useUser();
 		const cartItems = useCartStore((state) => state.cartItems);
 		const currentCart = user ? user.id : "default";
-		const total = cartItems[currentCart]?.reduce((acc, el) => el.quantity * el.price + acc, 0);
+		const total = cartItems[currentCart]?.reduce(
+			(acc, el) => Number(el.quantity * el.price + acc),
+			0
+		);
 		const closeOffcanvas = useOffcanvasStore((state) => state.closeOffcanvas);
 
 		const handleClickOutside = (e: MouseEvent) => {

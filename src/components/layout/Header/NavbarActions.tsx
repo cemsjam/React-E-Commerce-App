@@ -127,11 +127,11 @@ const NavbarActions = () => {
 			<li>
 				<Button
 					variant="icon"
-					className="relative"
+					className="relative w-10 h-10"
 					onClick={toggleOffcanvas}
 					aria-label="Toggle Shopping Cart"
 				>
-					<VisualOnlySvg className="navbar-action-btn-bg">
+					<VisualOnlySvg>
 						<ShoppingCart className="relative z-[2]" size={20} />
 					</VisualOnlySvg>
 					{cartItems[activeUser]?.length > 0 && (

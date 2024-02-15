@@ -108,7 +108,7 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 				filterProperty="brands"
 			/>
 
-			<button onClick={handleFilterChange}>Apply Filters</button>
+			{/* <button onClick={handleFilterChange}>Apply Filters</button> */}
 		</div>
 	);
 };

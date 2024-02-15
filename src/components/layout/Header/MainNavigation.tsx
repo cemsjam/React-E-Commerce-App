@@ -3,6 +3,7 @@ import classNames from "classnames";
 
 import useFetch from "@/hooks/useFetch";
 import { CategoryType } from "@/types/CategoryType";
+import useClickOutside from "@/hooks/useClickOutside";
 
 function MainNavigation({ isDrawer = false }) {
 	const { data } = useFetch<CategoryType>(

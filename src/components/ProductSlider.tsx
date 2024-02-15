@@ -6,9 +6,14 @@ import {
 	CarouselItem,
 	CarouselApi,
 } from "@/components/Carousel/Carousel";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+
 import { useEffect, useState } from "react";
 import Card from "./Cards/Card";
 import CardSkeleton from "./CardSkeleton";
+
 type ProductSliderType = {
 	categoryName: string;
 };
@@ -51,25 +56,28 @@ const ProductSlider = ({ categoryName }: ProductSliderType) => {
 	}
 
 	return (
-		<Carousel
-			setApi={setApi}
-			opts={{
-				align: "start",
-			}}
-		>
-			<CarouselContent className="lg:p-4">
-				{data?.products?.map((product) => (
-					<CarouselItem
-						className="basis-1/2 md:basis-1/3 lg:basis-1/4 "
-						key={`${product.title}-${product.id}`}
-					>
-						<Card product={product} />
-					</CarouselItem>
-				))}
-			</CarouselContent>
-			{/* <CarouselNext className="right-4" />
+		<div>
+			<Carousel
+				opts={{
+					align: "start",
+				}}
+				setApi={setApi}
+				className="w-full max-w-sm md:max-w-full"
+			>
+				<CarouselContent className="lg:p-4">
+					{data?.products?.map((product) => (
+						<CarouselItem
+							className="basis-1/2 md:basis-1/3 lg:basis-1/4 "
+							key={`${product.title}-${product.id}`}
+						>
+							<Card product={product} />
+						</CarouselItem>
+					))}
+				</CarouselContent>
+				{/* <CarouselNext className="right-4" />
 			<CarouselPrevious className="left-4" /> */}
-		</Carousel>
+			</Carousel>
+		</div>
 	);
 };
 
