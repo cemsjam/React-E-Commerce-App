@@ -12,8 +12,6 @@ const SearchPage = () => {
 	const [listedProducts, setListedProducts] = useState<Product[]>([]);
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 	const searchQuery = searchParams.get("q");
-	const categoriesParam = searchParams.get("categories");
-	const brandsParam = searchParams.get("brands");
 
 	useEffect(() => {
 		const controller = new AbortController();
@@ -40,14 +38,6 @@ const SearchPage = () => {
 		return () => controller.abort();
 	}, [searchQuery]);
 
-	// useEffect(() => {
-	// 	// Update filtered products when URL parameters change
-	// 	handleFilterChange({
-	// 		categories: categoriesParam ? categoriesParam.split(",") : [],
-	// 		brands: brandsParam ? brandsParam.split(",") : [],
-	// 	});
-	// }, [categoriesParam, brandsParam]);
-
 	const handleFilterChange = (filters: Filters) => {
 		const filtered = listedProducts.filter((product) => {
 			// const priceFilter =
@@ -70,16 +60,6 @@ const SearchPage = () => {
 			return categoryFilter && brandFilter;
 		});
 		setFilteredProducts(filtered);
-
-		// const params = new URLSearchParams();
-		// if (filters.categories.length > 0) {
-		// 	params.set("categories", filters.categories.join(","));
-		// }
-		// if (filters.brands.length > 0) {
-		// 	params.set("brands", filters.brands.join(","));
-		// }
-		// const newUrl = `${window.location.pathname}?${params.toString()}`;
-		// window.history.pushState({ path: newUrl }, "", newUrl);
 	};
 	return (
 		<div className="bg-white h-full">

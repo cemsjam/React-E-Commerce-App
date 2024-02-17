@@ -9,11 +9,12 @@ import MobileMenu from "./MobileMenu";
 
 import Logo from "../Logo";
 import NavbarActions from "./NavbarActions";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 function Navbar() {
 	const isOpen = useOffcanvasStore((state) => state.isOpen);
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
-
+	const isMobile = useMediaQuery("(max-width:769px)");
 	//#region layout shift
 	useEffect(() => {
 		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -40,7 +41,7 @@ function Navbar() {
 					<NavbarActions />
 				</nav>
 			</header>
-			<MainNavigation />
+			{!isMobile && <MainNavigation />}
 			{isOpen && (
 				<div
 					ref={overlayRef}

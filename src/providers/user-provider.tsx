@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 
-import useUserStore from "./stores/userStore";
+import useUserStore from "../stores/userStore";
 
 const UserProvider = () => {
 	const { userId } = useAuth();
