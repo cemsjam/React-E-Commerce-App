@@ -3,7 +3,6 @@ import { Toaster } from "react-hot-toast";
 
 import Navbar from "./Header/Navbar";
 import ScrollUp from "@/components/layout/ScrollUp";
-import Drawer from "@/components/Drawers/Drawer";
 import Footer from "./Footer";
 
 function MainLayout() {
@@ -17,7 +16,6 @@ function MainLayout() {
 				<Footer />
 			</div>
 			<ScrollUp />
-			<Drawer />
 			<Toaster />
 		</>
 	);

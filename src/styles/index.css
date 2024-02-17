@@ -17,7 +17,6 @@
 		position: relative;
 	}
 	body {
-		background-color: #fff;
 		@apply text-base antialiased font-almarai bg-[#eeeeee];
 	}
 

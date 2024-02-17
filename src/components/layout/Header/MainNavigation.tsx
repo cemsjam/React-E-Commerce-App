@@ -3,30 +3,31 @@ import classNames from "classnames";
 
 import useFetch from "@/hooks/useFetch";
 import { CategoryType } from "@/types/CategoryType";
-import useClickOutside from "@/hooks/useClickOutside";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
-function MainNavigation({ isDrawer = false }) {
+function MainNavigation({ onClick }: { onClick: () => void | null }) {
+	const isMobile = useMediaQuery("(max-width:768px)");
 	const { data } = useFetch<CategoryType>(
 		import.meta.env.VITE_APP_API_BASE_URL,
 		"/categories"
 	);
 	return (
 		<div
-			className={classNames("bg-white", {
-				"hidden md:block border-b border-b-gray-200 h-10": !isDrawer,
-				"block md:hidden": isDrawer,
+			className={classNames("", {
+				"hidden md:block border-b border-b-gray-200 h-10 bg-white": !isMobile,
+				"block md:hidden": isMobile,
 			})}
 		>
 			<nav
 				role="navigation"
 				aria-label="Main Navigation"
 				className={classNames("container", {
-					"p-0": isDrawer,
+					"p-0": isMobile,
 				})}
 			>
 				<ul
 					className={classNames("flex", {
-						"flex-col": isDrawer,
+						"flex-col": isMobile,
 					})}
 				>
 					{data &&
@@ -35,15 +36,16 @@ function MainNavigation({ isDrawer = false }) {
 								<NavLink to={`/category/${category}`}>
 									{({ isActive }) => (
 										<span
+											onClick={onClick}
 											className={classNames(
-												"flex items-center  h-10 uppercase font-medium relative transition-all ",
+												"flex items-center  h-10 uppercase relative transition-all ",
 												{
-													"border-b px-2": !isDrawer,
+													"border-b px-2 font-medium": !isMobile,
 													"border-b-transparent hover:border-b-primary":
-														!isActive && !isDrawer,
-													"border-b-primary text-primary": isActive && !isDrawer,
-													"p-4 hover:bg-primary active:bg-primary": isDrawer,
-													"bg-primary": isActive && isDrawer,
+														!isActive && !isMobile,
+													"border-b-primary text-primary": isActive && !isMobile,
+													"p-4 hover:bg-primary active:bg-primary font-semibold": isMobile,
+													"bg-primary text-white": isActive && isMobile,
 												}
 											)}
 										>
