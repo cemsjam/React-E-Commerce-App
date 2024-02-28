@@ -120,7 +120,7 @@ function SearchBar() {
 			</form>
 			<div
 				className={cn("absolute top-full left-0 w-full bg-white -mt-[1px] ", {
-					"z-40": focused,
+					"z-40 overflow-hidden rounded-b-sm": focused,
 				})}
 			>
 				{debouncedValue.length >= 3 && focused && (
@@ -132,10 +132,24 @@ function SearchBar() {
 					>
 						{loading && <Loader />}
 						{debouncedValue.length > 0 && suggestions?.products?.length > 0 && (
-							<Suggestions
-								products={suggestions?.products}
-								onClick={() => setFocused(false)}
-							/>
+							<>
+								<Suggestions
+									products={suggestions?.products}
+									onClick={() => setFocused(false)}
+								/>
+								<li>
+									<button
+										type="button"
+										onClick={() => {
+											onHandleSearchButtonClick();
+											setFocused(false);
+										}}
+										className="bg-primary text-white w-full px-4 py-3 text-center font-bold rounded-b-sm overflow-hidden hover:bg-primary-600"
+									>
+										Show All Search Results
+									</button>
+								</li>
+							</>
 						)}
 						{notFound && !loading && (
 							<span className="p-2 h-8  text-red-600">Product Not found</span>
