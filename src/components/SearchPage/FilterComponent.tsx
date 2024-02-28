@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Product } from "@/types/Product";
 import { CategoryType } from "@/types/CategoryType";
