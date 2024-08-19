@@ -7,10 +7,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 
 function MainNavigation({ onClick }: { onClick: () => void | null }) {
 	const isMobile = useMediaQuery("(max-width:768px)");
-	const { data } = useFetch<CategoryType>(
-		import.meta.env.VITE_APP_API_BASE_URL,
-		"/categories"
-	);
+	const { data } = useFetch<CategoryType>(import.meta.env.VITE_APP_API_BASE_URL, "/categories");
 	return (
 		<div
 			className={classNames("", {
@@ -32,24 +29,20 @@ function MainNavigation({ onClick }: { onClick: () => void | null }) {
 				>
 					{data &&
 						data.slice(0, 7).map((category) => (
-							<li key={category} className="md:[&:first-child>a>span]:pl-0">
-								<NavLink to={`/category/${category}`}>
+							<li key={category.name} className="md:[&:first-child>a>span]:pl-0">
+								<NavLink to={`/category/${category.name}`}>
 									{({ isActive }) => (
 										<span
 											onClick={onClick}
-											className={classNames(
-												"flex items-center  h-10 uppercase relative transition-all ",
-												{
-													"border-b px-2 font-medium": !isMobile,
-													"border-b-transparent hover:border-b-primary":
-														!isActive && !isMobile,
-													"border-b-primary text-primary": isActive && !isMobile,
-													"p-4 hover:bg-primary active:bg-primary font-semibold": isMobile,
-													"bg-primary text-white": isActive && isMobile,
-												}
-											)}
+											className={classNames("flex items-center  h-10 uppercase relative transition-all ", {
+												"border-b px-2 font-medium": !isMobile,
+												"border-b-transparent hover:border-b-primary": !isActive && !isMobile,
+												"border-b-primary text-primary": isActive && !isMobile,
+												"p-4 hover:bg-primary active:bg-primary font-semibold": isMobile,
+												"bg-primary text-white": isActive && isMobile,
+											})}
 										>
-											{category}
+											{category.name}
 										</span>
 									)}
 								</NavLink>

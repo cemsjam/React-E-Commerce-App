@@ -27,7 +27,7 @@ function OffcanvasItem({ product }: { product: Product }) {
 				<div className="flex-1 flex flex-col gap-3">
 					<div className="flex flex-wrap justify-between items-center font-semibold">
 						<h3 className="m-0 text-gray-900 ">{title}</h3>
-						<p>${quantity * price}</p>
+						<p>${(quantity * price).toFixed(2)}</p>
 					</div>
 					<div className="flex items-center gap-2">
 						<CustomNumberInput product={product} />

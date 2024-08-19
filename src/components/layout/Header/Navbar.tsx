@@ -42,12 +42,7 @@ function Navbar() {
 				</nav>
 			</header>
 			{!isMobile && <MainNavigation />}
-			{isOpen && (
-				<div
-					ref={overlayRef}
-					className="overlay fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm"
-				/>
-			)}
+			{isOpen && <div ref={overlayRef} className="overlay fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm" />}
 			<Offcanvas ref={offcanvasRef} isOpen={isOpen} onClick={toggleOffcanvas} />
 		</div>
 	);

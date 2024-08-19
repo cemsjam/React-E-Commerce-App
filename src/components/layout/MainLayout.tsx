@@ -10,7 +10,7 @@ function MainLayout() {
 		<>
 			<div className="grid grid-rows-[auto,1fr,auto] min-h-screen">
 				<Navbar />
-				<main className="flex-1">
+				<main className="flex-1 overflow-hidden">
 					<Outlet />
 				</main>
 				<Footer />

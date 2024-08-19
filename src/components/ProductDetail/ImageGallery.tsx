@@ -15,7 +15,7 @@ function ImageGallery({ title, images }: { title: string; images: string[] }) {
 	const [current, setCurrent] = useState(0);
 	const [count, setCount] = useState(0);
 	const [cursor, setCursor] = useState("grab");
-
+	console.log(images);
 	useEffect(() => {
 		if (!api) {
 			return;
@@ -39,7 +39,7 @@ function ImageGallery({ title, images }: { title: string; images: string[] }) {
 				{images && (
 					<Carousel setApi={setApi}>
 						<CarouselContent>
-							{images.slice(0, images.length - 1).map((img) => (
+							{images.map((img) => (
 								<CarouselItem key={img} className="flex items-center justify-center">
 									<img
 										src={img}
@@ -54,28 +54,25 @@ function ImageGallery({ title, images }: { title: string; images: string[] }) {
 								</CarouselItem>
 							))}
 						</CarouselContent>
-						<CarouselPrevious className="-left-4 disabled:opacity-30 disabled:cursor-default  flex items-center justify-center" />
-						<CarouselNext className="-right-4 disabled:opacity-30 disabled:cursor-default  flex items-center justify-center" />
+						{images.length > 1 && (
+							<>
+								<CarouselPrevious className="-left-4 disabled:opacity-30 disabled:cursor-default  flex items-center justify-center" />
+								<CarouselNext className="-right-4 disabled:opacity-30 disabled:cursor-default  flex items-center justify-center" />
+							</>
+						)}
 					</Carousel>
 				)}
 			</div>
 			<ul className="flex flex-wrap justify-center gap-2 mt-4">
-				{images?.slice(0, images.length - 1).map((img, i) => (
+				{images.map((img, i) => (
 					<li
-						className={classNames(
-							"rounded-md overflow-hidden object-cover border-2 h-[80px] aspect-square",
-							{
-								"border-primary": i === current,
-								"border-slate-300": i !== current,
-							}
-						)}
+						className={classNames("rounded-md overflow-hidden object-cover border-2 h-[80px] aspect-square", {
+							"border-primary": i === current,
+							"border-slate-300": i !== current,
+						})}
 						key={img}
 					>
-						<button
-							type="button"
-							className="block h-full p-1"
-							onClick={() => api?.scrollTo(i)}
-						>
+						<button type="button" className="block h-full p-1" onClick={() => api?.scrollTo(i)}>
 							<img className="object-contain" src={img} alt={title} />
 						</button>
 					</li>

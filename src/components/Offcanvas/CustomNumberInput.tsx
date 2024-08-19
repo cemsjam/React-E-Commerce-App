@@ -10,9 +10,8 @@ import VisualOnlySvg from "../VisualOnlySvg";
 
 function CustomNumberInput({ product }: { product: Product }) {
 	const { user } = useUser();
-	const [input, setInput] = useState({ value: 1, max: 100, min: 1, step: 1 });
+	const [input, setInput] = useState({ value: product.quantity, max: 100, min: 1, step: 1 });
 	const { changeQuantity } = useCartStore();
-
 	const handleQuantityChange = (product: Product) => {
 		if (product) {
 			const newQuantity = input.value;

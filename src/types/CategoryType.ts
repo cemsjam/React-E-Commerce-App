@@ -1,1 +1,1 @@
-export type CategoryType = string[];
+export type CategoryType = { name: string; slug: string; url: string }[];

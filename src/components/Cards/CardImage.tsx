@@ -16,12 +16,14 @@ const CardImage = ({ product }: { product: Product }) => {
 
 	const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
 	const append = useModalStore((state) => state.append);
-	const isProductInWishlist = useWishlistStore((state) =>
-		state.isProductInWishlist({ currentUser: user, product })
-	);
+	const isProductInWishlist = useWishlistStore((state) => state.isProductInWishlist({ currentUser: user, product }));
 	const handleToggleWishlist = (product: Product) => {
 		if (product) {
-			toast.success(`${product.title} has been added to Wishlist!`);
+			if (!isProductInWishlist) {
+				toast.success(`${product.title} has been added to Wishlist!`);
+			} else {
+				toast.success(`${product.title} has been removed from Wishlist!`);
+			}
 			toggleWishlist({ currentUser: user, product });
 		}
 	};
@@ -55,10 +57,7 @@ const CardImage = ({ product }: { product: Product }) => {
 				onClick={() => handleToggleWishlist(product)}
 			>
 				<VisualOnlySvg>
-					<Heart
-						size={20}
-						className={cn("", { "fill-primary stroke-primary": isProductInWishlist })}
-					/>
+					<Heart size={20} className={cn("", { "fill-primary stroke-primary": isProductInWishlist })} />
 				</VisualOnlySvg>
 			</Button>
 		</div>

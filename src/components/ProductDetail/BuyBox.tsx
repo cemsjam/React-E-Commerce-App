@@ -8,17 +8,18 @@ import { Product } from "@/types/Product";
 
 import { calculateDiscountedPrice } from "@/utils/utils";
 import Button from "@/components/Button";
+import { useUser } from "@clerk/clerk-react";
 
 function BuyBox({ product }: { product: Product }) {
 	const { title, description, price, rating, discountPercentage } = product;
+	const { user } = useUser();
 	const addToCart = useCartStore((state) => state.addToCart);
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
-
 	const handleAddToCart = (product: Product) => {
 		if (product) {
 			toggleOffcanvas();
 			toast.success(`${product.title} has been added to cart!`);
-			addToCart(product);
+			addToCart({ currentUser: user, product });
 		}
 	};
 	//#region discount calculation
@@ -36,11 +37,7 @@ function BuyBox({ product }: { product: Product }) {
 			<header className="flex justify-between items-center font-bold">
 				<h1 className="capitalize m-0">{title}</h1>
 				<div className="flex items-center gap-2">
-					{discountPercentage ? (
-						<p className="text-2xl">${discountedPrice}</p>
-					) : (
-						<p className="text-2xl">${price}</p>
-					)}
+					{discountPercentage ? <p className="text-2xl">${discountedPrice}</p> : <p className="text-2xl">${price}</p>}
 				</div>
 			</header>
 			<div className="flex justify-between md:items-center">
@@ -59,9 +56,7 @@ function BuyBox({ product }: { product: Product }) {
 				</p>
 				{discountPercentage && (
 					<div className="flex items-center gap-2 flex-shrink-0">
-						<p className="text-white bg-red-500 p-1 rounded-md font-semibold">
-							% {discountPercentage}
-						</p>
+						<p className="text-white bg-red-500 p-1 rounded-md font-semibold">% {discountPercentage}</p>
 						<p className="text-gray-500 line-through">${price}</p>
 					</div>
 				)}

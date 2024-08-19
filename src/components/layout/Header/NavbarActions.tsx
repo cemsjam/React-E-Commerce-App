@@ -30,6 +30,7 @@ const NavbarActions = () => {
 	const activeUser = user ? user.id : "default";
 	const isUserSignedIn = isLoaded && isSignedIn;
 	const wishlistCount = user ? wishlists[user.id]?.length : wishlists["default"]?.length;
+	console.log(wishlistCount);
 	return (
 		<ul className="flex items-center">
 			{/* PROFILE */}
@@ -116,8 +117,8 @@ const NavbarActions = () => {
 							<Heart size={20} />
 						</VisualOnlySvg>
 					</Link>
-					{wishlistCount && wishlistCount > 0 && (
-						<span className="badge absolute top-0 left-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
+					{wishlistCount > 0 && (
+						<span className="badge absolute top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
 							{wishlistCount}
 						</span>
 					)}
@@ -135,7 +136,7 @@ const NavbarActions = () => {
 						<ShoppingCart className="relative z-[2]" size={20} />
 					</VisualOnlySvg>
 					{cartItems[activeUser]?.length > 0 && (
-						<span className="badge absolute -top-2 -left-2 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
+						<span className="badge absolute  top-0 right-0 w-4 h-4 inline-flex justify-center items-center rounded-full bg-primary text-white text-sm font-semibold transition-all">
 							{cartItems[activeUser]?.length}
 						</span>
 					)}

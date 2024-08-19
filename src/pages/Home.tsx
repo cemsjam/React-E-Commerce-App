@@ -8,11 +8,7 @@ function Home() {
 		<div className="container p-4">
 			<div className="flex flex-col gap-8">
 				<HeroSlider />
-				<HomeSectionHeader
-					title="Popular Laptops"
-					href="/category/laptops"
-					linkLabel="All Laptops"
-				/>
+				<HomeSectionHeader title="Popular Laptops" href="/category/laptops" linkLabel="All Laptops" />
 				<ProductSlider categoryName="laptops" />
 				<HomeSectionHeader
 					title="Popular Smartphones"
