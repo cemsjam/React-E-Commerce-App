@@ -30,7 +30,6 @@ const NavbarActions = () => {
 	const activeUser = user ? user.id : "default";
 	const isUserSignedIn = isLoaded && isSignedIn;
 	const wishlistCount = user ? wishlists[user.id]?.length : wishlists["default"]?.length;
-	console.log(wishlistCount);
 	return (
 		<ul className="flex items-center">
 			{/* PROFILE */}

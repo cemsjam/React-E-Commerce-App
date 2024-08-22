@@ -7,6 +7,7 @@ import useFetch from "@/hooks/useFetch";
 import { calculateMinMaxPricesFromArrayOfProducts } from "@/utils/utils";
 
 import CollapsibleCheckboxList from "./CollapsibleCheckboxList";
+import { useSearchParams } from "react-router-dom";
 
 type FilterComponentProps = {
 	products: Product[];
@@ -18,22 +19,18 @@ export type Filters = {
 	categories: string[];
 	minRating: string;
 	brands: string[];
-	// Add more filter criteria as needed
 };
 
 const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [filters, setFilters] = useState<Filters>({
 		minPrice: 0,
 		maxPrice: 0,
-		categories: [],
 		minRating: "",
-		brands: [],
-		// Add more filter criteria as needed
+		categories: searchParams.get("categories")?.split(",") || [],
+		brands: searchParams.get("brands")?.split(",") || [],
 	});
-	const { data: categoriesData } = useFetch<CategoryType>(
-		import.meta.env.VITE_APP_API_BASE_URL,
-		`/categories`
-	);
+	const { data: categoriesData } = useFetch<CategoryType>(import.meta.env.VITE_APP_API_BASE_URL, `/categories`);
 
 	const allBrands = useMemo(
 		() =>
@@ -45,31 +42,38 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 			}, []),
 		[products]
 	);
-
-	// const { maxPrice, minPrice } = calculateMinMaxPricesFromArrayOfProducts(products);
-
+	console.log("filters", filters);
 	const handleFilterChange = (): void => {
-		// Validate and sanitize filter values if needed
 		onFilterChange(filters);
 	};
-	useEffect(() => {
-		handleFilterChange();
-	}, [filters]);
 
-	const onCheckboxChange = (filterKey: "categories" | "brands", value: string): void => {
-		setFilters((prevFilters) => {
-			if (prevFilters[filterKey].includes(value)) {
-				return {
-					...prevFilters,
-					[filterKey]: prevFilters[filterKey].filter((item) => item !== value),
-				};
+	useEffect(() => {
+		const params = new URLSearchParams(searchParams);
+		const query = params.get("q") || "app";
+		params.set("q", query);
+		for (const [key, value] of Object.entries(filters)) {
+			if (Array.isArray(value) && value.length > 0) {
+				params.set(key, value.join(","));
 			} else {
-				return {
-					...prevFilters,
-					[filterKey]: [...prevFilters[filterKey], value],
-				};
+				params.delete(key);
 			}
-		});
+		}
+
+		setSearchParams(params);
+		handleFilterChange();
+	}, [filters, searchParams, setSearchParams]);
+	const onCheckboxChange = (filterKey: "categories" | "brands", value: string): void => {
+		let newFilters = { ...filters };
+		let newFilterArr = newFilters[filterKey];
+		if (newFilterArr.includes(value)) {
+			newFilters = { ...newFilters, [filterKey]: newFilterArr.filter((item) => item !== value) };
+
+			setFilters(newFilters);
+		} else {
+			newFilterArr.push(value);
+			newFilters = { ...newFilters, [filterKey]: newFilterArr };
+			setFilters(newFilters);
+		}
 	};
 
 	return (

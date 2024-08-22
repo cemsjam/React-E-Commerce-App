@@ -3,10 +3,12 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../Collapsi
 import { Plus, Minus } from "lucide-react";
 import { Label } from "../FormElements/Label";
 import { Checkbox } from "../FormElements/Checkbox";
+import { CategoryType } from "@/types/CategoryType";
+import { useSearchParams } from "react-router-dom";
 
 type CollapsibleCheckboxListProps = {
 	triggerTitle: string;
-	arr: string[];
+	arr: string[] | CategoryType[];
 	defaultOpen?: boolean;
 	onCheckboxChange: Function;
 	filterProperty: "categories" | "brands";
@@ -20,18 +22,14 @@ const CollapsibleCheckboxList = ({
 	filterProperty,
 }: CollapsibleCheckboxListProps) => {
 	const [open, setOpen] = useState(defaultOpen);
-
+	const [searchParams, setSearchParams] = useSearchParams();
 	const handleOnChange = (value: string) => {
 		onCheckboxChange(filterProperty, value);
 	};
-
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<CollapsibleTrigger asChild>
-				<button
-					type="button"
-					className="w-full border-b border-gray-200  py-3 flex justify-between items-center group"
-				>
+				<button type="button" className="w-full border-b border-gray-200  py-3 flex justify-between items-center group">
 					<span className="font-semibold text-gray-900">{triggerTitle}</span>
 					{open ? (
 						<Minus size={16} className="text-gray-400 group-hover:text-gray-500" />
@@ -42,12 +40,32 @@ const CollapsibleCheckboxList = ({
 			</CollapsibleTrigger>
 			<CollapsibleContent className="py-3 pb-1">
 				<div className="flex flex-col gap-1">
-					{arr.map((item) => (
-						<div key={"filter-item-" + item} className="flex items-center gap-2">
-							<Checkbox id={item} onClick={() => handleOnChange(item.toLowerCase())} />
-							<Label htmlFor={item}>{item[0].toUpperCase() + item.slice(1)}</Label>
-						</div>
-					))}
+					{arr.length > 0 &&
+						arr?.map((item) => {
+							if (filterProperty === "brands") {
+								return (
+									<div key={"filter-item-" + item} className="flex items-center gap-2">
+										<Checkbox
+											checked={searchParams.get("brands")?.includes(item.toLowerCase())}
+											id={item}
+											onClick={() => handleOnChange(item.toLowerCase())}
+										/>
+										<Label htmlFor={item}>{item[0].toUpperCase() + item.slice(1)}</Label>
+									</div>
+								);
+							} else if (filterProperty === "categories") {
+								return (
+									<div key={"filter-item-" + item.name} className="flex items-center gap-2">
+										<Checkbox
+											checked={searchParams.get("categories")?.includes(item.name.toLowerCase())}
+											id={item.name}
+											onClick={() => handleOnChange(item.name.toLowerCase())}
+										/>
+										<Label htmlFor={item.name}>{item.name[0].toUpperCase() + item.name.slice(1)}</Label>
+									</div>
+								);
+							}
+						})}
 				</div>
 			</CollapsibleContent>
 		</Collapsible>

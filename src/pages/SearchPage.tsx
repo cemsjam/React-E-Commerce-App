@@ -16,7 +16,7 @@ const SearchPage = () => {
 	useEffect(() => {
 		const controller = new AbortController();
 		const signal = controller.signal;
-
+		console.log(location.state);
 		if (!location.state || location.state.products.length < 0) {
 			fetch(`${import.meta.env.VITE_APP_API_BASE_URL}/search?q=${searchQuery}`, { signal })
 				.then((res) => {
@@ -39,20 +39,20 @@ const SearchPage = () => {
 	}, [searchQuery]);
 
 	const handleFilterChange = (filters: Filters) => {
-		const filtered = listedProducts.filter((product) => {
+		const filtered = [...listedProducts].filter((product) => {
 			// const priceFilter =
 			// 	(!filters.minPrice || product.price >= filters.minPrice) &&
 			// 	(!filters.maxPrice || product.price <= filters.maxPrice);
 
 			const categoryFilter =
-				filters.categories.length === 0 ||
-				filters.categories.includes(product.category.toLowerCase());
+				filters.categories.length === 0 || filters.categories.includes(product.category.toLowerCase());
 
 			// const ratingFilter =
 			// 	!filters.minRating || product.rating >= parseFloat(filters.minRating);
 
 			const brandFilter =
-				filters.brands.length === 0 || filters.brands.includes(product.brand.toLowerCase());
+				(product.brand && filters.brands.length === 0) ||
+				(product.brand && filters.brands.includes(product.brand.toLowerCase()));
 
 			// Add more filter criteria as needed
 
@@ -71,9 +71,7 @@ const SearchPage = () => {
 					<div className="flex-[9]">
 						<h1 className="mt-4">SearchPage</h1>
 						<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-							{filteredProducts?.map((product: Product) => (
-								<Card key={product.id} product={product} />
-							))}
+							{filteredProducts?.map((product: Product) => <Card key={product.id} product={product} />)}
 						</div>
 					</div>
 				</div>
