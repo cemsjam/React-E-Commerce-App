@@ -35,27 +35,20 @@ const HeroSlider = () => {
 						"invisible opacity-0 transition-all": current !== 0,
 					})}
 				>
-					<img
-						src="/images/home/home-page-hero-01.jpg"
-						alt="A laptop"
-						className="object-cover h-full w-full"
-					/>
+					<img src="/images/home/home-page-hero-01.jpg" alt="A laptop" className="object-cover h-full w-full" />
 					<div className="absolute inset-0 bg-[rgb(17,24,39,0.6)] z-[100]">
 						<div className="flex flex-col justify-center items-center text-center p-4 md:max-w-[65ch] lg:max-w-[75ch] mx-auto h-full text-white">
-							<h1 className="text-xl md:text-4xl font-bold">
-								Unleash the Power of Electronics
-							</h1>
+							<h1 className="text-xl md:text-4xl font-bold">Unleash the Power of Electronics</h1>
 							<p className="text-sm md:text-base">
 								{" "}
-								Dive into cutting-edge electronics, transform your space. Share on socials;
-								likes will surpass life updates. Embrace tech evolution. Elevate your
-								workspace.
+								Dive into cutting-edge electronics, transform your space. Share on socials; likes will surpass life
+								updates. Embrace tech evolution. Elevate your workspace.
 							</p>
 							<Link
-								to="/"
+								to="/category/laptops"
 								className="text-sm md:text-base mt-3 md:mt-6 bg-white p-2 md:p-3 rounded-md text-black font-semibold"
 							>
-								{" "}
+								{""}
 								Explore Electronics Collection
 							</Link>
 						</div>
@@ -66,21 +59,14 @@ const HeroSlider = () => {
 						"invisible opacity-0 transition-all": current !== 1,
 					})}
 				>
-					<img
-						src="/images/home/home-page-hero-02.jpg"
-						alt="A laptop"
-						className="object-cover h-full w-full"
-					/>
+					<img src="/images/home/home-page-hero-02.jpg" alt="A laptop" className="object-cover h-full w-full" />
 					<div className="absolute inset-0 bg-[rgb(17,24,39,0.4)] z-[100]">
 						<div className="flex flex-col justify-center items-center text-center p-4 md:max-w-[65ch] lg:max-w-[75ch] mx-auto h-full text-white">
-							<h1 className="text-xl md:text-4xl font-bold">
-								Unleash the Power of Electronics
-							</h1>
+							<h1 className="text-xl md:text-4xl font-bold">Unleash the Power of Electronics</h1>
 							<p className="text-sm md:text-base">
 								{" "}
-								Dive into cutting-edge electronics, transform your space. Share on socials;
-								likes will surpass life updates. Embrace tech evolution. Elevate your
-								workspace.
+								Dive into cutting-edge electronics, transform your space. Share on socials; likes will surpass life
+								updates. Embrace tech evolution. Elevate your workspace.
 							</p>
 							<Link
 								to="/"

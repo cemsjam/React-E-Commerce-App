@@ -27,7 +27,7 @@ const Breadcrumb = ({ productName, isProductPage = false }: BreadcrumbTypes) => 
 					const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
 					const isNonNavigatable = name === "category" || name === "product";
 					const isLastElement = index === pathnames.length - 1;
-					const capitalizedName = name[0].toUpperCase() + name.slice(1);
+					const capitalizedName = decodeURIComponent(name[0].toUpperCase() + name.slice(1));
 					return isLastElement ? (
 						<li className="font-medium" key={index}>
 							{isProductPage ? productName : capitalizedName}

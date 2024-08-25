@@ -10,6 +10,7 @@ import SignUpPage from "@/pages/SignUpPage";
 import AccountPage from "@/pages/Account";
 import WishlistPage from "@/pages/WishlistPage";
 import SearchPage from "@/pages/SearchPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 
 export const routes: RouteObject[] = [
 	{
@@ -47,6 +48,10 @@ export const routes: RouteObject[] = [
 			{
 				path: "/search",
 				element: <SearchPage />,
+			},
+			{
+				path: "*",
+				element: <NotFoundPage />,
 			},
 		],
 	},

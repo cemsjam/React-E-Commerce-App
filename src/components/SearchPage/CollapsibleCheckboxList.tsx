@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../Collapsible";
 import { Plus, Minus } from "lucide-react";
 import { Label } from "../FormElements/Label";
 import { Checkbox } from "../FormElements/Checkbox";
 import { CategoryType } from "@/types/CategoryType";
-import { useSearchParams } from "react-router-dom";
+import { useFilter } from "./useFilter";
 
 type CollapsibleCheckboxListProps = {
 	triggerTitle: string;
@@ -22,10 +22,24 @@ const CollapsibleCheckboxList = ({
 	filterProperty,
 }: CollapsibleCheckboxListProps) => {
 	const [open, setOpen] = useState(defaultOpen);
-	const [searchParams, setSearchParams] = useSearchParams();
+	const { setFilters, filtersObj } = useFilter();
+
 	const handleOnChange = (value: string) => {
-		onCheckboxChange(filterProperty, value);
+		const newFilters = { ...filtersObj };
+		const currentFilterArr = newFilters[filterProperty] || [];
+		let newFilterArr = [...currentFilterArr];
+
+		if (newFilterArr.includes(value)) {
+			newFilterArr = newFilterArr.filter((el) => el !== value);
+		} else {
+			newFilterArr.push(value);
+		}
+
+		newFilters[filterProperty] = newFilterArr;
+		setFilters({ [filterProperty]: value });
+		onCheckboxChange(newFilters);
 	};
+
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<CollapsibleTrigger asChild>
@@ -46,7 +60,7 @@ const CollapsibleCheckboxList = ({
 								return (
 									<div key={"filter-item-" + item} className="flex items-center gap-2">
 										<Checkbox
-											checked={searchParams.get("brands")?.includes(item.toLowerCase())}
+											checked={filtersObj.brands.includes(item.toLowerCase())}
 											id={item}
 											onClick={() => handleOnChange(item.toLowerCase())}
 										/>
@@ -57,7 +71,7 @@ const CollapsibleCheckboxList = ({
 								return (
 									<div key={"filter-item-" + item.name} className="flex items-center gap-2">
 										<Checkbox
-											checked={searchParams.get("categories")?.includes(item.name.toLowerCase())}
+											checked={filtersObj.categories.includes(item.name.toLowerCase())}
 											id={item.name}
 											onClick={() => handleOnChange(item.name.toLowerCase())}
 										/>

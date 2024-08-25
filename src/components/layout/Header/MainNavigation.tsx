@@ -5,14 +5,14 @@ import useFetch from "@/hooks/useFetch";
 import { CategoryType } from "@/types/CategoryType";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-function MainNavigation({ onClick }: { onClick: () => void | null }) {
-	const isMobile = useMediaQuery("(max-width:768px)");
+function MainNavigation({ onClick = () => {} }: { onClick?: () => void | null }) {
+	const isMobile = useMediaQuery("(max-width:992px)");
 	const { data } = useFetch<CategoryType>(import.meta.env.VITE_APP_API_BASE_URL, "/categories");
 	return (
 		<div
 			className={classNames("", {
-				"hidden md:block border-b border-b-gray-200 h-10 bg-white": !isMobile,
-				"block md:hidden": isMobile,
+				"hidden lg:block border-b border-b-gray-200 h-10 bg-white": !isMobile,
+				"block lg:hidden": isMobile,
 			})}
 		>
 			<nav
@@ -29,7 +29,7 @@ function MainNavigation({ onClick }: { onClick: () => void | null }) {
 				>
 					{data &&
 						data.slice(0, 7).map((category) => (
-							<li key={category.name} className="md:[&:first-child>a>span]:pl-0">
+							<li key={category.name} className="lg:[&:first-child>a>span]:pl-0">
 								<NavLink to={`/category/${category.name}`}>
 									{({ isActive }) => (
 										<span

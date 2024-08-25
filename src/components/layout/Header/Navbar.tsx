@@ -14,7 +14,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 function Navbar() {
 	const isOpen = useOffcanvasStore((state) => state.isOpen);
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
-	const isMobile = useMediaQuery("(max-width:769px)");
+	const isMobile = useMediaQuery("(max-width:992px)");
 	//#region layout shift
 	useEffect(() => {
 		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -36,7 +36,7 @@ function Navbar() {
 			<header className=" bg-white">
 				<nav className="container py-3 md:py-1 md:h-[70px] flex flex-wrap md:flex-nowrap justify-between items-center gap-2">
 					<MobileMenu />
-					<Logo />
+					<Logo className="hidden lg:block" />
 					<SearchBar />
 					<NavbarActions />
 				</nav>

@@ -15,9 +15,10 @@ type CategoryData = {
 
 function Category() {
 	const { categoryId } = useParams();
+	const formattedCategoryId = categoryId?.replace(/\s+/g, "-").toLowerCase();
 	const { data, loading } = useFetch<CategoryData>(
 		import.meta.env.VITE_APP_API_BASE_URL,
-		`/category/${categoryId}`
+		`/category/${formattedCategoryId}`
 	);
 	if (loading || !data) {
 		return (

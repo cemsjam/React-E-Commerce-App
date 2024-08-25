@@ -26,12 +26,9 @@ function SearchBar() {
 		const fetchData = async () => {
 			try {
 				setLoading(true);
-				const res = await fetch(
-					import.meta.env.VITE_APP_API_BASE_URL + `/search?q=${debouncedValue.toLowerCase()}`,
-					{
-						signal,
-					}
-				);
+				const res = await fetch(import.meta.env.VITE_APP_API_BASE_URL + `/search?q=${debouncedValue.toLowerCase()}`, {
+					signal,
+				});
 				if (!res.ok) throw new Error("No response to this request in Search Component");
 
 				const json = await res.json();
@@ -93,7 +90,7 @@ function SearchBar() {
 				</label>
 				<input
 					className={cn(
-						"h-[40px] w-full rounded-md border border-transparent py-1.5 pl-4 pr-[60px] placeholder:text-sm bg-[#f3f3f3] font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none",
+						"h-[40px] w-full rounded-md border border-transparent py-1.5 pl-4 pr-[60px] placeholder:text-sm bg-neutral-100 font-medium placeholder:tracking-wide placeholder:font-medium placeholder:text-gray-500 focus:outline-none",
 						{
 							"border-primary": focused,
 							"rounded-b-none": debouncedValue.length >= 3,
@@ -126,17 +123,13 @@ function SearchBar() {
 				{debouncedValue.length >= 3 && focused && (
 					<ul
 						className={cn("w-full flex flex-col", {
-							"border border-primary border-t-transparent shadow-2xl rounded-b-sm overflow-hidden":
-								focused,
+							"border border-primary border-t-transparent shadow-2xl rounded-b-sm overflow-hidden": focused,
 						})}
 					>
 						{loading && <Loader />}
 						{debouncedValue.length > 0 && suggestions?.products?.length > 0 && (
 							<>
-								<Suggestions
-									products={suggestions?.products}
-									onClick={() => setFocused(false)}
-								/>
+								<Suggestions products={suggestions?.products} onClick={() => setFocused(false)} />
 								<li>
 									<button
 										type="button"
@@ -151,9 +144,7 @@ function SearchBar() {
 								</li>
 							</>
 						)}
-						{notFound && !loading && (
-							<span className="p-2 h-8  text-red-600">Product Not found</span>
-						)}
+						{notFound && !loading && <span className="p-2 h-8  text-red-600">Product Not found</span>}
 					</ul>
 				)}
 			</div>

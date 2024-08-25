@@ -7,31 +7,26 @@ import useFetch from "@/hooks/useFetch";
 import { calculateMinMaxPricesFromArrayOfProducts } from "@/utils/utils";
 
 import CollapsibleCheckboxList from "./CollapsibleCheckboxList";
-import { useSearchParams } from "react-router-dom";
+import { Filters, useFilter } from "./useFilter";
 
 type FilterComponentProps = {
 	products: Product[];
 	onFilterChange: (filters: Filters) => void;
 };
-export type Filters = {
-	minPrice: number;
-	maxPrice: number;
-	categories: string[];
-	minRating: string;
-	brands: string[];
-};
 
 const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const [filters, setFilters] = useState<Filters>({
-		minPrice: 0,
-		maxPrice: 0,
-		minRating: "",
-		categories: searchParams.get("categories")?.split(",") || [],
-		brands: searchParams.get("brands")?.split(",") || [],
-	});
+	// const [filters, setFilters] = useState<Filters>({
+	// 	minPrice: 0,
+	// 	maxPrice: 0,
+	// 	minRating: "",
+	// 	categories: searchParams.get("categories")?.split(",") || [],
+	// 	brands: searchParams.get("brands")?.split(",") || [],
+	// });
 	const { data: categoriesData } = useFetch<CategoryType>(import.meta.env.VITE_APP_API_BASE_URL, `/categories`);
-
+	const { filtersObj } = useFilter();
+	useEffect(() => {
+		onFilterChange(filtersObj);
+	}, []);
 	const allBrands = useMemo(
 		() =>
 			products.reduce((acc: string[], item) => {
@@ -42,39 +37,24 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 			}, []),
 		[products]
 	);
-	console.log("filters", filters);
-	const handleFilterChange = (): void => {
-		onFilterChange(filters);
-	};
 
-	useEffect(() => {
-		const params = new URLSearchParams(searchParams);
-		const query = params.get("q") || "app";
-		params.set("q", query);
-		for (const [key, value] of Object.entries(filters)) {
-			if (Array.isArray(value) && value.length > 0) {
-				params.set(key, value.join(","));
-			} else {
-				params.delete(key);
-			}
-		}
+	// useEffect(() => {
 
-		setSearchParams(params);
-		handleFilterChange();
-	}, [filters, searchParams, setSearchParams]);
-	const onCheckboxChange = (filterKey: "categories" | "brands", value: string): void => {
-		let newFilters = { ...filters };
-		let newFilterArr = newFilters[filterKey];
-		if (newFilterArr.includes(value)) {
-			newFilters = { ...newFilters, [filterKey]: newFilterArr.filter((item) => item !== value) };
+	// 	onFilterChange(filters);
+	// }, [filters]);
+	// const onCheckboxChange = (filterKey: "categories" | "brands", value: string): void => {
+	// 	let newFilters = { ...filters };
+	// 	let newFilterArr = newFilters[filterKey];
+	// 	if (newFilterArr.includes(value)) {
+	// 		newFilters = { ...newFilters, [filterKey]: newFilterArr.filter((item) => item !== value) };
 
-			setFilters(newFilters);
-		} else {
-			newFilterArr.push(value);
-			newFilters = { ...newFilters, [filterKey]: newFilterArr };
-			setFilters(newFilters);
-		}
-	};
+	// 		setFilters(newFilters);
+	// 	} else {
+	// 		newFilterArr.push(value);
+	// 		newFilters = { ...newFilters, [filterKey]: newFilterArr };
+	// 		setFilters(newFilters);
+	// 	}
+	// };
 
 	return (
 		<div>
@@ -100,7 +80,7 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 					triggerTitle="Category"
 					key={`Collapsible-Category`}
 					arr={categoriesData.slice(0, 7)}
-					onCheckboxChange={onCheckboxChange}
+					onCheckboxChange={onFilterChange}
 					filterProperty="categories"
 				/>
 			)}
@@ -108,7 +88,7 @@ const FilterComponent = ({ products, onFilterChange }: FilterComponentProps) => 
 				triggerTitle="Brands"
 				key={`Collapsible-Brands`}
 				arr={allBrands}
-				onCheckboxChange={onCheckboxChange}
+				onCheckboxChange={onFilterChange}
 				filterProperty="brands"
 			/>
 

@@ -80,8 +80,9 @@ const Offcanvas = React.forwardRef(({ isOpen, onClick }: { isOpen: boolean; onCl
 							variant="primary"
 							buttonSize="lg"
 							alignment="center"
-							className="mx-4 mt-2"
+							className="mx-4 mt-2 disabled:opacity-50 disabled:pointer-events-none"
 							onClick={onCheckoutClick}
+							disabled={cartItems[currentCart].length <= 0}
 						>
 							Checkout
 						</Button>
