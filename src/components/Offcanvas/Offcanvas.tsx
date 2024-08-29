@@ -45,7 +45,7 @@ const Offcanvas = React.forwardRef(({ isOpen, onClick }: { isOpen: boolean; onCl
 					exit={{ translateX: "100%", opacity: 0 }}
 					id="cart-offcanvas"
 					ref={ref}
-					className="fixed top-0 right-0 z-[110] bg-white shadow-2xl h-screen w-[80%] md:w-[350px] grid grid-rows-[auto,1fr,auto]
+					className="fixed top-0 right-0 z-[110] bg-white shadow-2xl h-[100dvh] w-[80%] md:w-[350px] grid grid-rows-[auto,1fr,auto]
     } transition-transform"
 				>
 					{/* header */}

@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "./Header/Navbar";
 import ScrollUp from "@/components/layout/ScrollUp";
 import Footer from "./Footer";
+import Modal from "../modals/Modal";
 
 function MainLayout() {
 	return (
@@ -17,6 +18,7 @@ function MainLayout() {
 			</div>
 			<ScrollUp />
 			<Toaster />
+			<Modal />
 		</>
 	);
 }

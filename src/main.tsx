@@ -8,7 +8,6 @@ import { routes } from "./routes/route";
 
 import "@/styles/index.css";
 
-import Modal from "@/components/modals/Modal";
 import UserProvider from "./providers/user-provider";
 
 // Import your publishable key
@@ -21,13 +20,12 @@ if (!PUBLISHABLE_KEY) {
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-	<React.StrictMode>
-		<ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-			<SkeletonTheme baseColor="#f0f0f0" highlightColor="#e0e0e0">
-				<Modal />
-				<RouterProvider router={router} />
-			</SkeletonTheme>
-			<UserProvider />
-		</ClerkProvider>
-	</React.StrictMode>
+	// <React.StrictMode>
+	<ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+		<SkeletonTheme baseColor="#f0f0f0" highlightColor="#e0e0e0">
+			<RouterProvider router={router} />
+		</SkeletonTheme>
+		<UserProvider />
+	</ClerkProvider>
+	// </React.StrictMode>
 );
