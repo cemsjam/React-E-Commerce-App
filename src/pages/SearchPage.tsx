@@ -65,7 +65,6 @@ const SearchPage = () => {
 			// return priceFilter && categoryFilter && ratingFilter && brandFilter;
 			return categoryFilter && brandFilter;
 		});
-		console.log("handlefilter ran", filters);
 		setFilteredProducts(filtered);
 	};
 	if (loading) {

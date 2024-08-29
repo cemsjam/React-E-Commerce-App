@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
 
@@ -15,6 +15,7 @@ function Navbar() {
 	const isOpen = useOffcanvasStore((state) => state.isOpen);
 	const toggleOffcanvas = useOffcanvasStore((state) => state.toggleOffcanvas);
 	const isMobile = useMediaQuery("(max-width:992px)");
+
 	//#region layout shift
 	useEffect(() => {
 		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -28,9 +29,6 @@ function Navbar() {
 	}, [isOpen]);
 	//#endregion
 
-	const offcanvasRef = useRef<HTMLElement>();
-	const overlayRef = useRef<HTMLDivElement | null>(null);
-	// console.log("offcanvasRef declared here first");
 	return (
 		<div>
 			<header className=" bg-white">
@@ -42,8 +40,10 @@ function Navbar() {
 				</nav>
 			</header>
 			{!isMobile && <MainNavigation />}
-			{isOpen && <div ref={overlayRef} className="overlay fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm" />}
-			<Offcanvas ref={offcanvasRef} isOpen={isOpen} onClick={toggleOffcanvas} />
+			{isOpen && (
+				<div onClick={toggleOffcanvas} className="overlay fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm" />
+			)}
+			<Offcanvas isOpen={isOpen} onClick={toggleOffcanvas} />
 		</div>
 	);
 }

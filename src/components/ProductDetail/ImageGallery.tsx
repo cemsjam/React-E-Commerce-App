@@ -27,7 +27,6 @@ function ImageGallery({ title, images, isQuickViewModal = false }: ImageGalleryP
 		setCount(api.scrollSnapList().length - 1);
 		setCurrent(api.selectedScrollSnap());
 		api.on("select", () => {
-			console.log("dragging");
 			setCurrent(api.selectedScrollSnap());
 		});
 	}, [api]);

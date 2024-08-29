@@ -1,6 +1,10 @@
 @tailwind base;
 
 @layer base {
+	* {
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		-webkit-tap-highlight-color: transparent;
+	}
 	h1 {
 		@apply text-2xl;
 		margin-bottom: 0.75em;
@@ -67,14 +71,7 @@
 	width: 50px;
 	height: 40px;
 	position: relative;
-	clip-path: polygon(
-		calc(100% - 10px) 0%,
-		100% 10px,
-		100% 100%,
-		10px 100%,
-		0% calc(100% - 10px),
-		0% 0%
-	);
+	clip-path: polygon(calc(100% - 10px) 0%, 100% 10px, 100% 100%, 10px 100%, 0% calc(100% - 10px), 0% 0%);
 	@apply bg-gray-300;
 }
 
@@ -85,14 +82,7 @@
 	position: absolute;
 	top: 2px;
 	left: 2px;
-	clip-path: polygon(
-		calc(100% - 9px) 0%,
-		100% 9px,
-		100% 100%,
-		9px 100%,
-		0% calc(100% - 9px),
-		0% 0%
-	);
+	clip-path: polygon(calc(100% - 9px) 0%, 100% 9px, 100% 100%, 9px 100%, 0% calc(100% - 9px), 0% 0%);
 	z-index: 1;
 	width: var(--offset);
 	height: var(--offset);

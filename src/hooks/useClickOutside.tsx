@@ -1,29 +1,18 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-type PassedFn = (e: MouseEvent) => void;
+export const useClickOutside = (cb: () => void) => {
+	const ref = useRef<HTMLElement>(null);
+	useEffect(() => {
+		const handler = (e: MouseEvent) => {
+			const clickedEl = e.target as Node;
+			if (ref.current && clickedEl.contains(ref.current)) {
+				// you clicked outside
+				cb();
+			}
+		};
+		window.addEventListener("click", handler);
 
-function useClickOutside(ref: React.RefObject<HTMLElement>, fn: PassedFn, isActive?: boolean) {
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const target = e.target as Node;
-      const el = ref?.current;
-      console.log("handler");
-      if (!el || el.contains(target)) {
-        return;
-      } else {
-        fn(e);
-      }
-    };
-    if (isActive) {
-      document.addEventListener("click", handler, true);
-    }
-
-    return () => {
-      if (isActive) {
-        document.removeEventListener("click", handler, true);
-      }
-    };
-  }, [ref.current, isActive]);
-}
-
-export default useClickOutside;
+		return () => window.removeEventListener("click", handler);
+	}, [cb]);
+	return ref;
+};

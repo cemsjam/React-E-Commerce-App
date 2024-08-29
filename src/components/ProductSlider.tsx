@@ -32,7 +32,6 @@ const ProductSlider = ({ categoryName }: ProductSliderType) => {
 		setCount(api.scrollSnapList().length - 1);
 		setCurrent(api.selectedScrollSnap());
 		api.on("select", () => {
-			console.log("dragging");
 			setCurrent(api.selectedScrollSnap());
 		});
 	}, [api]);

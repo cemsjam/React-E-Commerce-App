@@ -1,5 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { PiArrowRightLight } from "react-icons/pi";
@@ -10,27 +8,23 @@ import { Product } from "@/types/Product";
 
 import { useCartStore } from "@/stores/cartStore";
 import { useOffcanvasStore } from "@/stores/offcanvasStore";
-import useClickOutside from "@/hooks/useClickOutside";
 
 import OffcanvasItem from "./OffcanvasItem";
 import VisualOnlySvg from "../VisualOnlySvg";
 import Button from "../Button";
 import { toast } from "react-hot-toast";
 
-const Offcanvas = React.forwardRef(({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }, ref: any) => {
+const Offcanvas = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }, ref: any) => {
 	const { user } = useUser();
 	const cartItems = useCartStore((state) => state.cartItems);
 	const currentCart = user ? user.id : "default";
 	const total = cartItems[currentCart]?.reduce((acc, el) => Number(el.quantity * el.price + acc), 0).toFixed(2);
 	const closeOffcanvas = useOffcanvasStore((state) => state.closeOffcanvas);
 
-	const handleClickOutside = (e: MouseEvent) => {
-		closeOffcanvas();
-	};
 	const onCheckoutClick = () => {
 		toast.error(`Checkouts are disabled at the moment!`);
 	};
-	useClickOutside(ref, handleClickOutside, isOpen);
+	// useClickOutside(ref, handleClickOutside, isOpen);
 	return (
 		<AnimatePresence>
 			{isOpen && (
@@ -100,6 +94,6 @@ const Offcanvas = React.forwardRef(({ isOpen, onClick }: { isOpen: boolean; onCl
 			)}
 		</AnimatePresence>
 	);
-});
+};
 
 export default Offcanvas;

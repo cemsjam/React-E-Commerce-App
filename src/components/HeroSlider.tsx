@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-	CarouselApi,
-} from "@/components/Carousel/Carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/Carousel/Carousel";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
@@ -23,7 +16,6 @@ const HeroSlider = () => {
 		setCount(api.scrollSnapList().length - 1);
 		setCurrent(api.selectedScrollSnap());
 		api.on("select", () => {
-			console.log("dragging");
 			setCurrent(api.selectedScrollSnap());
 		});
 	}, [api]);
@@ -69,7 +61,7 @@ const HeroSlider = () => {
 								updates. Embrace tech evolution. Elevate your workspace.
 							</p>
 							<Link
-								to="/"
+								to="/category/laptops"
 								className="text-sm md:text-base mt-3 md:mt-6 bg-white p-2 md:p-3 rounded-md text-black font-semibold"
 							>
 								{" "}

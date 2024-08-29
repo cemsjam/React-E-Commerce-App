@@ -13,7 +13,6 @@ import { NotFoundPage } from "./NotFoundPage";
 function ProductPage() {
 	const { productId } = useParams();
 	const { data, loading, error } = useFetch<Product>(import.meta.env.VITE_APP_API_BASE_URL, `/${productId}`);
-	console.log(error, data);
 	if (loading) {
 		return <ProductPageSkeleton />;
 	}
