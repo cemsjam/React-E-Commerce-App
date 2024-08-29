@@ -45,14 +45,14 @@ const CardImage = ({ product }: { product: Product }) => {
 			<button
 				type="button"
 				aria-label="Toggle quickview"
-				className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-lg absolute top-2 right-2 hover:text-primary transition-all opacity-0 group-hover:opacity-100"
+				className="hidden lg:flex w-8 h-8 rounded-full bg-white border border-gray-200  lg:items-center lg:justify-center shadow-lg absolute top-2 right-2 hover:text-primary transition-all opacity-0 group-hover:opacity-100"
 				onClick={() => handleQuickviewModal(product)}
 			>
 				<View size={16} />
 			</button>
 			<Button
 				type="button"
-				className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-lg absolute top-12 right-2 hover:text-primary transition-all opacity-0 group-hover:opacity-100"
+				className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-lg absolute top-2 lg:top-12 right-2 hover:text-primary transition-all lg:opacity-0 group-hover:opacity-100"
 				aria-label="Visit Wishlist Page"
 				onClick={() => handleToggleWishlist(product)}
 			>
